@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fleet Overview | Bengal Taxi</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#ddc57c",
+                    "outline": "#7f7660",
+                    "inverse-on-surface": "#f9f0de",
+                    "surface-container-highest": "#ebe2d0",
+                    "surface-container": "#f6eddb",
+                    "inverse-surface": "#353024",
+                    "primary-container": "#facc15",
+                    "primary-fixed-dim": "#eec200",
+                    "on-secondary-fixed": "#231b00",
+                    "on-surface-variant": "#4d4632",
+                    "background": "#fff8f0",
+                    "on-primary-fixed": "#231b00",
+                    "secondary": "#6f5d1f",
+                    "on-surface": "#1f1b11",
+                    "surface-container-high": "#f0e7d6",
+                    "on-background": "#1f1b11",
+                    "on-tertiary-container": "#006270",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#6c5700",
+                    "secondary-fixed": "#fbe195",
+                    "primary-fixed": "#ffe083",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#006876",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#ebe2d0",
+                    "surface-tint": "#735c00",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#574500",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "surface-bright": "#fff8f0",
+                    "secondary-container": "#fbe195",
+                    "surface-container-low": "#fcf3e1",
+                    "surface-dim": "#e2d9c8",
+                    "on-secondary-container": "#766324",
+                    "surface": "#fff8f0",
+                    "tertiary-fixed": "#a0efff",
+                    "tertiary-container": "#33e4ff",
+                    "on-secondary-fixed-variant": "#564507",
+                    "tertiary-fixed-dim": "#15daf4",
+                    "on-tertiary-fixed": "#001f25",
+                    "primary": "#735c00",
+                    "inverse-primary": "#eec200",
+                    "outline-variant": "#d1c6ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap-tablet": "96px",
+                    "section-gap-mobile": "64px",
+                    "container-max": "1280px",
+                    "section-gap-desktop": "120px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Inter"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "1px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["40px", {"lineHeight": "1.1", "letterSpacing": "-1px", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-1.5px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hairline-border { border: 1px solid theme('colors.outline-variant'); }
+        .pill-button { border-radius: 9999px; }
+        .transition-editorial { transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container">
+<!-- Top Navigation Bar -->
+<header class="bg-background dark:bg-inverse-surface border-b border-outline-variant dark:border-outline docked full-width top-0 z-50">
+<nav class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto w-full">
+<div class="font-headline-lg text-headline-lg font-black tracking-tighter text-on-background dark:text-inverse-on-surface">
+                BENGAL TAXI
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-primary dark:text-primary-fixed-dim border-b-2 border-primary pb-1 transition-colors" href="#">Fleet</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Safety</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Booking</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">About</a>
+</div>
+<button class="pill-button bg-primary-container text-on-primary-container px-8 py-3 font-label-caps text-label-caps scale-95 active:scale-90 transition-transform">
+                Book Now
+            </button>
+</nav>
+</header>
+<main class="max-w-container-max mx-auto px-margin-desktop pt-16 pb-section-gap-desktop">
+<!-- Hero Section: Editorial Focus -->
+<section class="mb-section-gap-desktop max-w-3xl">
+<span class="font-label-caps text-label-caps text-primary mb-4 block">PREMIUM TRANSIT ARCHIVE</span>
+<h1 class="font-headline-xl text-headline-xl mb-8 leading-tight">Refined transit, engineered for the discerning urbanite.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Our fleet represents the intersection of precision engineering and curated travel. From sustainable city navigation to high-executive transit, every journey is a statement in reliability.</p>
+</section>
+<!-- Fleet Grid -->
+<div class="flex flex-col gap-section-gap-desktop">
+<!-- Executive Class -->
+<article class="grid grid-cols-1 md:grid-cols-12 items-center gap-12 group">
+<div class="md:col-span-8 overflow-hidden rounded-xl hairline-border aspect-[16/10] bg-surface-container-low transition-editorial group-hover:border-primary">
+<img class="w-full h-full object-cover transition-editorial group-hover:scale-105" data-alt="A professional, high-end photograph of a sleek charcoal-colored executive sedan driving through a modern glass-and-steel business district at dusk. The lighting is crisp and cool, highlighting the car's aerodynamic lines and premium metallic finish. The overall mood is sophisticated, authoritative, and minimalist, with the Bengal Taxi brand's signature high-contrast editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCKN1nvndT6ZnOyQg6D3qTFTefucr3EeDJgbbe2a4qqZ3wCpWMC65di884_P1A66HRpeQMDswNugsyxMl64mV3HiGnV5uuk5wVHoH95HsrzKSb-rvtyetqjk-8LiNkkXiaYzkNVPxu8NaR6w346N-wckqh1z-UTxlrPqRlhTFAzFqjLa_X-QEw_7WnMhhxMSqqj1B4_XobbDorzGogOUeNYas1jvO8IyltVO_a_YwyGHs2bV-0Sq5Ish3BDECCR6jOmEBI9l-D2H8"/>
+</div>
+<div class="md:col-span-4">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">directions_car</span>
+<h2 class="font-headline-lg text-headline-lg">Executive Class</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Modern sedans optimized for city efficiency. Perfect for solo professionals who value punctuality and a quiet environment for focused work on the move.</p>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-label-caps text-label-caps uppercase">Seats: up to 3 passengers</span>
+</li>
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span class="font-label-caps text-label-caps uppercase">Complimentary 5G Connectivity</span>
+</li>
+</ul>
+<a class="font-label-caps text-label-caps text-on-surface border-b-2 border-primary-container inline-block pb-1 hover:border-primary transition-editorial" href="#">Configure Journey</a>
+</div>
+</article>
+<!-- Luxury Class -->
+<article class="grid grid-cols-1 md:grid-cols-12 items-center gap-12 group">
+<div class="md:col-span-4 order-2 md:order-1">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">diamond</span>
+<h2 class="font-headline-lg text-headline-lg">Luxury Elite</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Our flagship experience. Hand-selected European saloons featuring Napa leather interiors, climate control zoning, and unparalleled acoustic insulation.</p>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-label-caps text-label-caps uppercase">Seats: 2 Luxury Captain Chairs</span>
+</li>
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">local_bar</span>
+<span class="font-label-caps text-label-caps uppercase">Climate Controlled Refreshments</span>
+</li>
+</ul>
+<a class="font-label-caps text-label-caps text-on-surface border-b-2 border-primary-container inline-block pb-1 hover:border-primary transition-editorial" href="#">Explore Amenities</a>
+</div>
+<div class="md:col-span-8 order-1 md:order-2 overflow-hidden rounded-xl hairline-border aspect-[16/10] bg-surface-container-low transition-editorial group-hover:border-primary">
+<img class="w-full h-full object-cover transition-editorial group-hover:scale-105" data-alt="An ultra-luxury matte black sedan parked in front of a contemporary architectural masterpiece with dramatic concrete walls. The scene is shot in high-key morning light, emphasizing the textures of the vehicle and the clean, sterile surroundings. The composition is asymmetrical and editorial, conveying a sense of exclusive status and serene travel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT83I3OVYa04gqpxa1PbgGLGhFqEvy-vrqwibkmk45pxxZgYwukuF2MaSh9OZPmjVcTXr4u-L5n71hAMFubSbcszXJWQLVQdl3yCmCBdlNV2uEMxWABlvn9fJKEapPc3GgU-pJy0YYAxhGnvZ7qPDl_BS6GB9ICXYERo6e3ha-9C3x5OG-aYRqwdD5w3lS1YZMxq8_UoRJ86vD8Ki-fsNOcN1RB2DVGWXjobO6gffHKWpYRO27KcNQOHFQAnyGHi_MARO2Kw2d0CA"/>
+</div>
+</article>
+<!-- Prime Class -->
+<article class="grid grid-cols-1 md:grid-cols-12 items-center gap-12 group">
+<div class="md:col-span-8 overflow-hidden rounded-xl hairline-border aspect-[16/10] bg-surface-container-low transition-editorial group-hover:border-primary">
+<img class="w-full h-full object-cover transition-editorial group-hover:scale-105" data-alt="A spacious, high-end SUV in a metallic silver finish moving smoothly through an urban parkway lined with lush greenery. The lighting is soft and golden, suggesting a late afternoon commute. The image captures the vehicle's versatility and ample space, framed within a minimalist, magazine-style layout featuring plenty of breathing room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6UeEWZEuuPAGKmQwCeqBLQa2LWZ2iSjqfbsx8_6h_lUZoo35vIRlrtjD8pCR2ULWqO6LoqRsFFxqpbB-Hi-F85mtsMUa4E_DL9bhwniAc81DkEQzkBqsJ-zRt6UuCkNSIpYA3QbrpNdL9R_hainnN44uR4vc2FE0BEmuqjF2skn7ndOKljvwItt6-9P3EAsENcdHFewL724aerkfMHIOPlDyKyMbMP4eTUvEM39kbEDRJ29Eo2ICSGhPJVoCbHknwMloJFdQb9DM"/>
+</div>
+<div class="md:col-span-4">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">groups</span>
+<h2 class="font-headline-lg text-headline-lg">Prime Large</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Versatile SUVs for group transit or extra luggage requirements. Bengal Taxi Prime combines the luxury of our executive fleet with superior cabin space.</p>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-label-caps text-label-caps uppercase">Seats: up to 6 passengers</span>
+</li>
+<li class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<span class="material-symbols-outlined text-sm">luggage</span>
+<span class="font-label-caps text-label-caps uppercase">Maximum Cargo Capacity</span>
+</li>
+</ul>
+<a class="font-label-caps text-label-caps text-on-surface border-b-2 border-primary-container inline-block pb-1 hover:border-primary transition-editorial" href="#">Book Fleet</a>
+</div>
+</article>
+</div>
+</main>
+<!-- Interactive Section: Feature Bento -->
+<section class="bg-surface-container-low py-section-gap-desktop mb-section-gap-desktop">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<h2 class="font-headline-xl text-headline-xl mb-12 text-center">Standard Excellence</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-10 hairline-border rounded-xl bg-background transition-editorial hover:bg-primary-container hover:border-primary">
+<span class="material-symbols-outlined text-4xl mb-6 text-primary">eco</span>
+<h3 class="font-headline-lg text-headline-lg mb-4">Hybrid Precision</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Every vehicle in our fleet features hybrid or electric propulsion, reducing noise pollution and environmental impact.</p>
+</div>
+<div class="p-10 hairline-border rounded-xl bg-background transition-editorial hover:bg-primary-container hover:border-primary">
+<span class="material-symbols-outlined text-4xl mb-6 text-primary">shield_with_heart</span>
+<h3 class="font-headline-lg text-headline-lg mb-4">Safety Audit</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Daily 50-point safety inspections and real-time telematics tracking ensure every mile is secure and monitored.</p>
+</div>
+<div class="p-10 hairline-border rounded-xl bg-background transition-editorial hover:bg-primary-container hover:border-primary">
+<span class="material-symbols-outlined text-4xl mb-6 text-primary">calendar_today</span>
+<h3 class="font-headline-lg text-headline-lg mb-4">Flexible Booking</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Instant dispatch or scheduled weeks in advance. Our algorithm prioritizes your location for sub-4-minute arrivals.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-16 max-w-container-max mx-auto w-full">
+<div class="mb-8 md:mb-0">
+<div class="font-headline-lg text-headline-lg text-on-surface dark:text-inverse-on-surface mb-2 tracking-tighter font-black">
+                    BENGAL TAXI
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Bengal Taxi. Editorial Transit Excellence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 md:gap-12">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Fleet Careers</a>
+</div>
+</div>
+</footer>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('img').style.transform = 'scale(1.03)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('img').style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

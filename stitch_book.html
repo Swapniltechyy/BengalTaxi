@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bengal Taxi | Premium Booking</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ddc57c",
+                        "outline": "#7f7660",
+                        "inverse-on-surface": "#f9f0de",
+                        "surface-container-highest": "#ebe2d0",
+                        "surface-container": "#f6eddb",
+                        "inverse-surface": "#353024",
+                        "primary-container": "#facc15",
+                        "primary-fixed-dim": "#eec200",
+                        "on-secondary-fixed": "#231b00",
+                        "on-surface-variant": "#4d4632",
+                        "background": "#fff8f0",
+                        "on-primary-fixed": "#231b00",
+                        "secondary": "#6f5d1f",
+                        "on-surface": "#1f1b11",
+                        "surface-container-high": "#f0e7d6",
+                        "on-background": "#1f1b11",
+                        "on-tertiary-container": "#006270",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#6c5700",
+                        "secondary-fixed": "#fbe195",
+                        "primary-fixed": "#ffe083",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#006876",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#ebe2d0",
+                        "surface-tint": "#735c00",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "surface-bright": "#fff8f0",
+                        "secondary-container": "#fbe195",
+                        "surface-container-low": "#fcf3e1",
+                        "surface-dim": "#e2d9c8",
+                        "on-secondary-container": "#766324",
+                        "surface": "#fff8f0",
+                        "tertiary-fixed": "#a0efff",
+                        "tertiary-container": "#33e4ff",
+                        "on-secondary-fixed-variant": "#564507",
+                        "tertiary-fixed-dim": "#15daf4",
+                        "on-tertiary-fixed": "#001f25",
+                        "primary": "#735c00",
+                        "inverse-primary": "#eec200",
+                        "outline-variant": "#d1c6ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap-tablet": "96px",
+                        "section-gap-mobile": "64px",
+                        "container-max": "1280px",
+                        "section-gap-desktop": "120px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Inter"],
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "1px", "fontWeight": "600"}],
+                        "headline-xl-mobile": ["40px", {"lineHeight": "1.1", "letterSpacing": "-1px", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                        "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-1.5px", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hairline { border: 1px solid #E5E5E5; }
+        .bengal-focus:focus { border-bottom: 2px solid #FACC15; outline: none; }
+        input::placeholder { color: rgba(31, 27, 17, 0.5); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="bg-background border-b border-outline-variant fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto w-full">
+<div class="font-headline-lg text-headline-lg font-black tracking-tighter text-on-background">BENGAL TAXI</div>
+<nav class="hidden md:flex gap-10">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Fleet</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Safety</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Booking</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container font-label-caps px-8 py-3 rounded-full scale-95 active:scale-90 transition-transform">Book Now</button>
+</div>
+</header>
+<main class="pt-32 pb-section-gap-desktop">
+<!-- Hero Display Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop mb-section-gap-mobile md:mb-section-gap-desktop">
+<div class="md:w-2/3">
+<span class="font-label-caps text-label-caps text-primary mb-4 block">TRANSIT EXCELLENCE</span>
+<h1 class="font-headline-xl text-headline-xl md:text-headline-xl leading-none">
+                    Your Premium Journey Starts Here.
+                </h1>
+<p class="mt-8 text-body-lg text-on-surface-variant max-w-xl">
+                    Experience urban movement redefined. From black-tie events to daily executive transit, our fleet represents the pinnacle of reliability and editorial aesthetics.
+                </p>
+</div>
+</section>
+<!-- Booking Form Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left: Aesthetic Image -->
+<div class="lg:col-span-5 hidden lg:block h-[700px] rounded-lg overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A high-end editorial photograph of a sleek, black luxury sedan parked on a rain-slicked cobblestone street at dusk. The lighting is moody and cinematic, with soft yellow reflections from nearby boutique windows mirroring the Bengal Yellow brand color. The composition follows the rule of thirds, emphasizing the car's aerodynamic silhouette against a minimalist, modern architectural background. The overall aesthetic is premium, clean, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP5Ho2dPm0oHTCPSaM5YK-Ry-U1G4Q0A-BG2XRkUi33mD4zOWnrJMgOIqqZCPlkcDoT78Yuhgm2HuLwskvHLHX7AZjHGjuAC8p80d2chbxmN0v0NkiHmc-VXIT9vu6UmXcS2-kE6IpS5ohD18JahaV6aPBDNw6zxZGvevSSSngZhgUJVH1K7GpN2SWl6h2DhbiBqFpe3k3Tg_htmBxlsrYWt2Up9tajzOJHs7ZaQcX4rOtQOEXs40LNCCUe_YUIGz_1CIc_wVFpEw"/>
+<div class="absolute bottom-8 left-8 z-20 text-white">
+<p class="font-headline-lg text-headline-lg mb-2">The Fleet</p>
+<p class="font-body-md opacity-80">Curated for comfort, designed for prestige.</p>
+</div>
+</div>
+<!-- Right: Centered Minimalist Form -->
+<div class="lg:col-span-7 flex flex-col justify-center lg:pl-12">
+<div class="bg-surface-container-lowest p-8 md:p-12 rounded-lg hairline shadow-sm">
+<form class="space-y-10">
+<!-- Location Inputs -->
+<div class="space-y-8">
+<div class="relative">
+<label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest absolute -top-3 left-0">Pickup Location</label>
+<div class="flex items-center border-b border-[#E5E5E5] py-2 focus-within:border-primary-container transition-all">
+<span class="material-symbols-outlined text-outline-variant mr-4">location_on</span>
+<input class="w-full bg-transparent border-none p-0 font-body-md focus:ring-0 placeholder:text-on-surface-variant/40" placeholder="Enter pickup address" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest absolute -top-3 left-0">Destination</label>
+<div class="flex items-center border-b border-[#E5E5E5] py-2 focus-within:border-primary-container transition-all">
+<span class="material-symbols-outlined text-outline-variant mr-4">near_me</span>
+<input class="w-full bg-transparent border-none p-0 font-body-md focus:ring-0 placeholder:text-on-surface-variant/40" placeholder="Where to?" type="text"/>
+</div>
+</div>
+</div>
+<!-- Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest absolute -top-3 left-0">Schedule Date</label>
+<div class="flex items-center border-b border-[#E5E5E5] py-2 focus-within:border-primary-container transition-all">
+<span class="material-symbols-outlined text-outline-variant mr-4">calendar_today</span>
+<input class="w-full bg-transparent border-none p-0 font-body-md focus:ring-0 text-on-surface-variant" type="date"/>
+</div>
+</div>
+<div class="relative">
+<label class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest absolute -top-3 left-0">Time</label>
+<div class="flex items-center border-b border-[#E5E5E5] py-2 focus-within:border-primary-container transition-all">
+<span class="material-symbols-outlined text-outline-variant mr-4">schedule</span>
+<input class="w-full bg-transparent border-none p-0 font-body-md focus:ring-0 text-on-surface-variant" type="time"/>
+</div>
+</div>
+</div>
+<!-- Fleet Options -->
+<div class="pt-4">
+<h4 class="font-label-caps text-label-caps mb-6 text-on-surface">SELECT SERVICE CLASS</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<label class="relative cursor-pointer group">
+<input checked="" class="peer sr-only" name="fleet" type="radio" value="standard"/>
+<div class="p-6 rounded-lg hairline bg-white peer-checked:border-primary peer-checked:bg-primary-container/10 transition-all text-center">
+<span class="material-symbols-outlined text-3xl mb-2">directions_car</span>
+<p class="font-label-caps text-[11px] block">Standard</p>
+<p class="text-[14px] font-bold mt-1">$45.00</p>
+</div>
+</label>
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="fleet" type="radio" value="executive"/>
+<div class="p-6 rounded-lg hairline bg-white peer-checked:border-primary peer-checked:bg-primary-container/10 transition-all text-center">
+<span class="material-symbols-outlined text-3xl mb-2">business_center</span>
+<p class="font-label-caps text-[11px] block">Executive</p>
+<p class="text-[14px] font-bold mt-1">$85.00</p>
+</div>
+</label>
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="fleet" type="radio" value="luxury"/>
+<div class="p-6 rounded-lg hairline bg-white peer-checked:border-primary peer-checked:bg-primary-container/10 transition-all text-center">
+<span class="material-symbols-outlined text-3xl mb-2">workspace_premium</span>
+<p class="font-label-caps text-[11px] block">Premium</p>
+<p class="text-[14px] font-bold mt-1">$120.00</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-6">
+<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-label-caps tracking-widest text-sm hover:brightness-105 active:scale-[0.98] transition-all" type="submit">
+                                    CONFIRM RIDE
+                                </button>
+<p class="text-center text-[12px] mt-6 text-on-surface-variant/60 font-body-md">
+                                    By clicking "Confirm", you agree to our Terms of Service.
+                                </p>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Service Assurance Section -->
+<section class="mt-section-gap-desktop bg-surface-container-low py-section-gap-mobile">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="text-center md:text-left">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">verified_user</span>
+<h3 class="font-label-caps text-label-caps mb-2">Vetted Drivers</h3>
+<p class="text-body-md text-on-surface-variant">Only the most experienced chauffeurs handle your transit.</p>
+</div>
+<div class="text-center md:text-left">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">nest_clock_farsight_analog</span>
+<h3 class="font-label-caps text-label-caps mb-2">99% On-Time</h3>
+<p class="text-body-md text-on-surface-variant">Precision timing is the cornerstone of Bengal excellence.</p>
+</div>
+<div class="text-center md:text-left">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">clean_hands</span>
+<h3 class="font-label-caps text-label-caps mb-2">Safety Protocol</h3>
+<p class="text-body-md text-on-surface-variant">Highest standards of cleanliness and vehicle maintenance.</p>
+</div>
+<div class="text-center md:text-left">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">support_agent</span>
+<h3 class="font-label-caps text-label-caps mb-2">24/7 Concierge</h3>
+<p class="text-body-md text-on-surface-variant">Our support team is always available to manage your requests.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-16 max-w-container-max mx-auto w-full">
+<div class="mb-8 md:mb-0">
+<div class="font-headline-lg text-headline-lg text-on-surface mb-4">BENGAL TAXI</div>
+<p class="font-body-md text-on-surface-variant opacity-80">© 2024 Bengal Taxi. Editorial Transit Excellence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 md:gap-12">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Fleet Careers</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactivity for radio button cards
+        const radioGroups = document.querySelectorAll('input[name="fleet"]');
+        radioGroups.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                console.log(`Service level selected: ${e.target.value}`);
+            });
+        });
+
+        // Sticky Header Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>

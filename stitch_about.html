@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Safety &amp; About | BENGAL TAXI</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#ddc57c",
+                    "outline": "#7f7660",
+                    "inverse-on-surface": "#f9f0de",
+                    "surface-container-highest": "#ebe2d0",
+                    "surface-container": "#f6eddb",
+                    "inverse-surface": "#353024",
+                    "primary-container": "#facc15",
+                    "primary-fixed-dim": "#eec200",
+                    "on-secondary-fixed": "#231b00",
+                    "on-surface-variant": "#4d4632",
+                    "background": "#fff8f0",
+                    "on-primary-fixed": "#231b00",
+                    "secondary": "#6f5d1f",
+                    "on-surface": "#1f1b11",
+                    "surface-container-high": "#f0e7d6",
+                    "on-background": "#1f1b11",
+                    "on-tertiary-container": "#006270",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#6c5700",
+                    "secondary-fixed": "#fbe195",
+                    "primary-fixed": "#ffe083",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#006876",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#ebe2d0",
+                    "surface-tint": "#735c00",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#574500",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "surface-bright": "#fff8f0",
+                    "secondary-container": "#fbe195",
+                    "surface-container-low": "#fcf3e1",
+                    "surface-dim": "#e2d9c8",
+                    "on-secondary-container": "#766324",
+                    "surface": "#fff8f0",
+                    "tertiary-fixed": "#a0efff",
+                    "tertiary-container": "#33e4ff",
+                    "on-secondary-fixed-variant": "#564507",
+                    "tertiary-fixed-dim": "#15daf4",
+                    "on-tertiary-fixed": "#001f25",
+                    "primary": "#735c00",
+                    "inverse-primary": "#eec200",
+                    "outline-variant": "#d1c6ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap-tablet": "96px",
+                    "section-gap-mobile": "64px",
+                    "container-max": "1280px",
+                    "section-gap-desktop": "120px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Inter"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "1px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["40px", {"lineHeight": "1.1", "letterSpacing": "-1px", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-1.5px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hairline { border: 1px solid rgba(127, 118, 96, 0.2); }
+        .bengal-underline { position: relative; }
+        .bengal-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #facc15;
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="bg-background dark:bg-inverse-surface border-b border-outline-variant dark:border-outline sticky top-0 z-50">
+<div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto w-full">
+<a class="font-headline-lg text-headline-lg font-black tracking-tighter text-on-background dark:text-inverse-on-surface" href="#">BENGAL TAXI</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Fleet</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Safety</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">Booking</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full font-label-caps text-label-caps font-bold scale-95 active:scale-90 transition-transform">
+                Book Now
+            </button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-section-gap-mobile md:py-section-gap-desktop">
+<div class="grid md:grid-cols-12 gap-gutter items-end">
+<div class="md:col-span-8">
+<span class="font-label-caps text-label-caps text-primary mb-6 block tracking-[0.2em] uppercase">The Bengal Standard</span>
+<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-background mb-8 max-w-3xl">
+                        Safety isn't a feature. <br/> It's our <span class="text-primary italic">heritage</span>.
+                    </h1>
+</div>
+</div>
+</section>
+<!-- Our Mission Section (Narrative Layout) -->
+<section class="bg-surface-container-low py-section-gap-mobile md:py-section-gap-desktop">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid md:grid-cols-12 gap-section-gap-mobile md:gap-gutter">
+<div class="md:col-span-5 reveal-on-scroll">
+<div class="aspect-[4/5] rounded-[32px] overflow-hidden hairline">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-end portrait of a professional Bengal Taxi female driver standing confidently next to a premium vehicle. She is wearing a sharp, minimalist uniform. The lighting is soft morning sunlight, casting elegant shadows. The style is editorial magazine photography, clean and authoritative, with a background of a modern urban landscape in soft focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUdOhRxU2JJUmA6ebaNexBmRDIi28Ftu6VVx03uMw9VrA-FvhXfDQe8UVBvylY5qPwwvd5ykAw8kljlEOt8w038OHa8MkwCMzc-5Mr12GeQHiFVdIJ-dgM2_rMgOI_tj4uFi3-ghQmfh4G87u1pL9pFE7kmoJqXcscpdu_rtMjcuFc3HN6bExPQIaAZpHy12f69Oy3-SdIlUcVCZ5bLm-9wNxLaxVXvTmYf1RP9uOjHGR3gwhsnxOP0elEXixLTV-nsju23SfMlFs"/>
+</div>
+</div>
+<div class="md:col-span-6 md:col-start-7 flex flex-col justify-center reveal-on-scroll" style="transition-delay: 200ms;">
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-8">Our Mission</h2>
+<div class="space-y-6">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                                In a world that moves too fast, we choose to move with intention. Bengal Taxi was founded on the principle that urban mobility should be as refined as it is reliable. 
+                            </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                                We believe every journey is an opportunity for transit excellence. From our meticulous fleet maintenance to our rigorously vetted drivers, we curate an environment of absolute trust.
+                            </p>
+<a class="font-label-caps text-label-caps text-on-background font-bold inline-block bengal-underline mt-4" href="#">
+                                READ OUR STORY
+                            </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Safety Protocols (Asymmetric Grid) -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-section-gap-mobile md:py-section-gap-desktop">
+<div class="mb-section-gap-mobile text-center md:text-left">
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-background mb-4">Safety Protocols</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Uncompromising standards for every kilometer. We don't just meet regulations; we define them.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Protocol 1 -->
+<div class="reveal-on-scroll">
+<div class="w-16 h-16 bg-primary-container flex items-center justify-center rounded-full mb-8">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">verified_user</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">Elite Vetting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Every driver undergoes a comprehensive background check and personality assessment, ensuring only the most reliable professionals represent the Bengal brand.</p>
+</div>
+<!-- Protocol 2 -->
+<div class="reveal-on-scroll" style="transition-delay: 150ms;">
+<div class="w-16 h-16 bg-primary-container flex items-center justify-center rounded-full mb-8">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">precision_manufacturing</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">Daily Fleet Audit</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Our vehicles are not just inspected; they are audited daily for mechanical perfection and interior sanitation to provide a sanctuary for our passengers.</p>
+</div>
+<!-- Protocol 3 -->
+<div class="reveal-on-scroll" style="transition-delay: 300ms;">
+<div class="w-16 h-16 bg-primary-container flex items-center justify-center rounded-full mb-8">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">sensors</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">Real-time Telemetry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">We utilize advanced GPS and driver-monitoring AI to ensure smooth transit and immediate response capabilities should any situation arise.</p>
+</div>
+</div>
+</section>
+<!-- Personnel Spotlight -->
+<section class="bg-on-background text-background py-section-gap-mobile md:py-section-gap-desktop">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl max-w-xl">The Faces of Bengal Excellence</h2>
+<p class="font-body-lg text-body-lg text-surface-variant max-w-sm opacity-80">Our drivers are our greatest asset. Professionals committed to your safety.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="reveal-on-scroll">
+<div class="aspect-video rounded-[32px] overflow-hidden mb-6 hairline">
+<img class="w-full h-full object-cover" data-alt="An editorial portrait of a senior driver with graying hair and a kind expression, wearing a crisp dark suit. He is seated in the driver's seat of a luxury car, looking towards the window with soft, moody interior lighting. The aesthetic is extremely high-end, evoking luxury, experience, and deep reliability. Dark tones with subtle warm highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJKpRfuCCvMq2MrFWqBEvj2rCOilefomJnyf4zW6fvk-1sPZb2tqa_AzwmXUAusw56iaiTrh2y-7SN8EpBOEpxSOxcrwojngWaU0LGzGaAH5qV52tiY-lwZyv6fbULc1oYmSX5gAc75Fyycu-bmU1sTpWQ-Xt-P5sBXCKwrA8zuxHuCYFJjxqzi69OxQEz6ihisDo442gH6emyeRpNdPjld68Amyh0kymPJs6FPk9qkQwmDz2xX8Aup01qpWSvxJcLVxQGyK77Rwk"/>
+</div>
+<h4 class="font-headline-lg text-headline-lg mb-2">Arthur M.</h4>
+<p class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Senior Transit Partner • 15 Years</p>
+</div>
+<div class="reveal-on-scroll" style="transition-delay: 200ms;">
+<div class="aspect-video rounded-[32px] overflow-hidden mb-6 hairline">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young male operations manager for a taxi company. He is holding a tablet and standing in a clean, minimalist white workspace. The lighting is bright and airy, reflecting a modern tech-forward approach to safety. He wears a premium black polo with a small subtle logo. The focus is on precision and modern safety management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKZopROeiLWw90wNh1R040Jhr6ycv3-9fxa2VM0_-WD__tQ26koBBT6agaYXZOoR-yW9NY9ozFSCaCDK1N5EHClKlPSdpIzQPBFwl2jTU01cmrKblTPJ8BzitoJNfFBvCdRJhkMb97BMfxYK-1rwaXaC3h_-RZ2pAdDGoDyGcl2E6Mpewum4BpFCx9W--7zqA-8azqR7m0qBK77OfqhWnplBeF2dNFhfn4qqDh1TY1jZcoSuzceyxHtjTQMks3KssqNnONjWJZNmk"/>
+</div>
+<h4 class="font-headline-lg text-headline-lg mb-2">Julian V.</h4>
+<p class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Safety Operations Lead</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-section-gap-mobile md:py-section-gap-desktop text-center">
+<div class="max-w-3xl mx-auto">
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl mb-12">Experience Transit <br/> Without Compromise.</h2>
+<div class="flex flex-col sm:flex-row justify-center gap-6">
+<button class="bg-primary-container text-on-primary-container px-12 py-5 rounded-full font-label-caps text-label-caps font-extrabold tracking-widest hover:scale-105 active:scale-95 transition-all">
+                        BOOK YOUR JOURNEY
+                    </button>
+<button class="bg-on-background text-background px-12 py-5 rounded-full font-label-caps text-label-caps font-extrabold tracking-widest hover:scale-105 active:scale-95 transition-all">
+                        DOWNLOAD APP
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-section-gap-mobile md:py-16 max-w-container-max mx-auto w-full">
+<div class="mb-8 md:mb-0">
+<p class="font-headline-lg text-headline-lg text-on-surface dark:text-inverse-on-surface font-black tracking-tighter mb-4">BENGAL TAXI</p>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Bengal Taxi. Editorial Transit Excellence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Contact</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Fleet Careers</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Intersection Observer for scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+        // Micro-interaction for hover effects
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.filter = 'brightness(1.05)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.filter = 'brightness(1)';
+            });
+        });
+    </script>
+</body></html>
