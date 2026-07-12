@@ -169,14 +169,14 @@ function HomePage() {
       </section>
 
       {/* POPULAR ROUTES */}
-      <section className="container-x py-16 md:py-24">
+      <section className="container-x pb-16 pt-0 md:pb-24 md:pt-4">
         <ScrollReveal>
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Popular Routes
               </p>
-              <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">Where To Travel In North Bengal</h2>
+              <h2 className="mt-4 font-display text-xl sm:text-4xl md:text-5xl font-extrabold text-foreground whitespace-nowrap tracking-tight">Where To Travel In North Bengal</h2>
             </div>
             <Link to="/services" className="inline-flex items-center gap-2 font-semibold text-foreground hover:text-brand transition-colors">
               View all services <ArrowRight className="h-4 w-4" />
@@ -226,7 +226,7 @@ function HomePage() {
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Why Bengal Taxi
               </p>
-              <h2 className="mt-4 font-display text-2xl font-extrabold text-foreground sm:text-4xl md:text-5xl">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
+              <h2 className="mt-4 font-display text-xl sm:text-4xl md:text-5xl font-extrabold text-foreground whitespace-nowrap tracking-tight">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
               <p className="mt-6 text-lg text-muted-foreground">
                 We're a Siliguri-based team that has been moving travellers across North Bengal for
                 over a decade. Here's what sets us apart.

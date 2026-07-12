@@ -15,11 +15,12 @@ const links = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
+    <header className="fixed top-0 left-0 w-full z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
-          <span className="font-display text-xl font-extrabold tracking-tight">
+          <span className="font-display text-xl font-extrabold tracking-tight relative z-0 inline-block leading-none pb-1">
             Bengal<span className="text-brand">Taxi</span>
+            <svg className="absolute bottom-0 left-0 w-full -z-10" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="underline-fade-nav" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#FACC15" stopOpacity="1" /><stop offset="60%" stopColor="#FACC15" stopOpacity="0.6" /><stop offset="100%" stopColor="#FACC15" stopOpacity="0.1" /></linearGradient></defs><path d="M2 6 L298 6" stroke="url(#underline-fade-nav)" strokeWidth="5" strokeLinecap="round" style={{ strokeDasharray: "none" }}/></svg>
           </span>
         </Link>
 

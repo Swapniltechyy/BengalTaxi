@@ -27,7 +27,7 @@ export const Route = createFileRoute("/fleet")({
 
 const cars = [
   {
-    name: "Swift Dzire",
+    name: "SWIFT DZIRE",
     type: "Sedan",
     img: dzire,
     seats: "4 Passengers",
@@ -36,7 +36,7 @@ const cars = [
     best: "Best for: Airport transfer, city rides, couples",
   },
   {
-    name: "Ertiga",
+    name: "ERTIGA",
     type: "MPV",
     img: ertiga,
     seats: "6 Passengers",
@@ -45,7 +45,7 @@ const cars = [
     best: "Best for: Small families, weekend Dooars trips",
   },
   {
-    name: "Innova",
+    name: "INNOVA",
     type: "SUV",
     img: innova,
     seats: "6–7 Passengers",
@@ -54,7 +54,7 @@ const cars = [
     best: "Best for: Darjeeling tours, Sikkim circuit",
   },
   {
-    name: "Innova Crysta",
+    name: "INNOVA CRYSTA",
     type: "Premium SUV",
     img: crysta,
     seats: "6–7 Passengers",
@@ -63,7 +63,7 @@ const cars = [
     best: "Best for: Long tours, business travel, North Sikkim",
   },
   {
-    name: "Tempo Traveller",
+    name: "TEMPO TRAVELLER",
     type: "Minibus",
     img: tempo,
     seats: "12–16 Passengers",

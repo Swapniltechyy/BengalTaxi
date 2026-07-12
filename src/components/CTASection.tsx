@@ -15,11 +15,11 @@ export function CTASection() {
             <h2 className="font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl leading-tight">
               Need a Taxi? <br />
               Call <br />
-              <span className="relative inline-block">
+              <span className="relative z-0 inline-block leading-none pb-1">
                 Bengal<span className="text-brand">Taxi</span>
                 {/* Tapered brush-stroke underline: thick head → thin tail, faded gradient */}
                 <svg
-                  className="absolute -bottom-1 left-0 w-full -z-10"
+                  className="absolute bottom-0 left-0 w-full -z-10"
                   viewBox="0 0 300 12"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

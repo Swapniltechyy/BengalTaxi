@@ -44,7 +44,7 @@ function ContactPage() {
         subtitle="Available 24×7 for bookings, quotes and travel advice across North Bengal."
       />
 
-      <section className="container-x pt-8 pb-16 md:py-24">
+      <section className="container-x pt-4 pb-0 md:pt-24 md:pb-0">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           {/* Details */}
           <ScrollReveal className="order-2 lg:order-1">
@@ -53,7 +53,7 @@ function ContactPage() {
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground dark:bg-brand/20 dark:group-hover:bg-brand"><Phone className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Call Us</p>
-                  <p className="mt-1 font-display text-xl font-bold text-foreground">{site.phone}</p>
+                  <p className="mt-1 font-display text-base sm:text-xl font-bold text-foreground">{site.phone}</p>
                   <p className="mt-1 text-sm text-muted-foreground">24×7 for bookings & quotes</p>
                 </div>
               </a>
@@ -61,7 +61,7 @@ function ContactPage() {
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#25D366] transition-colors group-hover:bg-[#25D366] group-hover:text-white"><WhatsAppIcon className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">WhatsApp</p>
-                  <p className="mt-1 font-display text-xl font-bold text-foreground">{site.whatsapp}</p>
+                  <p className="mt-1 font-display text-base sm:text-xl font-bold text-foreground">{site.whatsapp}</p>
                   <p className="mt-1 text-sm text-muted-foreground">Fastest way to share details</p>
                 </div>
               </a>
@@ -69,7 +69,7 @@ function ContactPage() {
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground transition-colors group-hover:bg-foreground group-hover:text-background"><Mail className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</p>
-                  <p className="mt-1 font-display text-xl font-bold text-foreground break-all">{site.email}</p>
+                  <p className="mt-1 font-display text-base sm:text-xl font-bold text-foreground whitespace-nowrap tracking-tight">{site.email}</p>
                   <p className="mt-1 text-sm text-muted-foreground">Reply within a few hours</p>
                 </div>
               </a>
@@ -82,7 +82,7 @@ function ContactPage() {
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground transition-colors group-hover:bg-foreground group-hover:text-background"><MapPin className="h-5 w-5" /></span>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Central Office</p>
-                  <p className="mt-1 font-display text-lg font-bold text-foreground leading-snug">{site.address}</p>
+                  <p className="mt-1 font-display text-base sm:text-lg font-bold text-foreground leading-snug">{site.address}</p>
                   <p className="mt-2 text-sm text-muted-foreground flex items-center gap-1.5"><Clock className="h-4 w-4" /> Open 24 hours</p>
                 </div>
               </a>
@@ -128,15 +128,16 @@ function ContactPage() {
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Date</label>
-                  <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" />
+                  <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={`mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand uppercase dark:[color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-50 ${!form.date ? 'text-muted-foreground' : 'text-foreground'}`} />
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pax</label>
-                  <input required value={form.pax} onChange={(e) => setForm({ ...form, pax: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" placeholder="e.g. 4 Guests" />
+                  <input required type="tel" value={form.pax} onChange={(e) => setForm({ ...form, pax: e.target.value.replace(/\D/g, "") })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" placeholder="e.g. 4 Guests" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Trip Details</label>
-                  <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={4} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand resize-none" placeholder="Dates, group size, car preference…" />
+                  <textarea maxLength={100} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={4} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand resize-none" placeholder="Dates, group size, car preference…" />
+                  <p className="mt-1.5 text-xs font-medium text-muted-foreground">{form.message.length}/100</p>
                 </div>
               </div>
               <button type="submit" className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 font-bold text-brand-foreground transition-transform hover:scale-105 active:scale-95 sm:w-auto">
@@ -149,7 +150,7 @@ function ContactPage() {
 
         {/* Map */}
         <ScrollReveal delay={0.4} direction="up">
-          <div className="mt-16 overflow-hidden rounded-[2rem] border border-border bg-muted">
+          <div className="mt-24 overflow-hidden rounded-[2rem] border border-border bg-muted">
             <iframe
               title="Bengal Taxi — Siliguri location"
               src="https://www.google.com/maps?q=Baba+Lokenath+Communication,+Siliguri&output=embed"

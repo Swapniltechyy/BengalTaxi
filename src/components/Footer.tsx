@@ -9,8 +9,9 @@ export function Footer() {
       <div className="container-x grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center">
-            <span className="font-display text-2xl font-extrabold tracking-tight">
+            <span className="font-display text-2xl font-extrabold tracking-tight relative z-0 inline-block leading-none pb-1">
               Bengal<span className="text-brand">Taxi</span>
+              <svg className="absolute bottom-0 left-0 w-full -z-10" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="underline-fade-footer" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#FACC15" stopOpacity="1" /><stop offset="60%" stopColor="#FACC15" stopOpacity="0.6" /><stop offset="100%" stopColor="#FACC15" stopOpacity="0.1" /></linearGradient></defs><path d="M2 6 L298 6" stroke="url(#underline-fade-footer)" strokeWidth="5" strokeLinecap="round" style={{ strokeDasharray: "none" }}/></svg>
             </span>
           </div>
           <p className="mt-4 max-w-md text-sm text-muted-foreground">
