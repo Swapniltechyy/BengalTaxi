@@ -176,7 +176,7 @@ function HomePage() {
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Popular Routes
               </p>
-              <h2 className="mt-4 font-display text-4xl font-extrabold text-foreground md:text-5xl whitespace-nowrap">Where To Travel In North Bengal</h2>
+              <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">Where To Travel In North Bengal</h2>
             </div>
             <Link to="/services" className="inline-flex items-center gap-2 font-semibold text-foreground hover:text-brand transition-colors">
               View all services <ArrowRight className="h-4 w-4" />
@@ -184,11 +184,11 @@ function HomePage() {
           </div>
         </ScrollReveal>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {routes.map((r, i) => (
             <ScrollReveal key={r.title} delay={i * 0.1} direction="up">
               <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-sm">
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                <div className="aspect-[16/10] sm:aspect-[4/3] overflow-hidden bg-muted">
                   <img
                     src={r.img}
                     alt={r.title}
@@ -221,12 +221,12 @@ function HomePage() {
       {/* WHY CHOOSE US */}
       <section className="container-x py-16 md:py-24">
         <ScrollReveal>
-          <div className="rounded-[3rem] bg-muted/50 px-6 py-16 md:px-12 md:py-24">
+          <div className="rounded-2xl sm:rounded-[3rem] bg-muted/50 px-5 py-12 sm:px-6 sm:py-16 md:px-12 md:py-24">
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Why Bengal Taxi
               </p>
-              <h2 className="mt-4 font-display text-4xl font-extrabold text-foreground md:text-5xl whitespace-nowrap">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
+              <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
               <p className="mt-6 text-lg text-muted-foreground">
                 We're a Siliguri-based team that has been moving travellers across North Bengal for
                 over a decade. Here's what sets us apart.
@@ -258,7 +258,7 @@ function HomePage() {
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
               <span className="text-brand mr-2">●</span> Customer Stories
             </p>
-            <h2 className="mt-4 font-display text-4xl font-extrabold text-foreground md:text-5xl">Loved By Tavellers Across India</h2>
+            <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">Loved By Tavellers Across India</h2>
           </div>
         </ScrollReveal>
         <div className="mt-16 grid gap-6 md:grid-cols-3">

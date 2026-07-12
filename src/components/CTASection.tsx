@@ -12,7 +12,7 @@ export function CTASection() {
           <div className="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-brand/20 blur-[80px] pointer-events-none" />
 
           <div className="relative z-10 mx-auto max-w-2xl">
-            <h2 className="font-display text-4xl font-extrabold text-foreground md:text-5xl leading-tight">
+            <h2 className="font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl leading-tight">
               Need a Taxi? <br />
               Call <br />
               <span className="relative inline-block">
