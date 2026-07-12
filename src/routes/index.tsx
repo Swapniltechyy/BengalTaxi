@@ -226,7 +226,7 @@ function HomePage() {
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Why Bengal Taxi
               </p>
-              <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
+              <h2 className="mt-4 font-display text-2xl font-extrabold text-foreground sm:text-4xl md:text-5xl">A Taxi Service Trusted Since <span className="text-brand">1995</span></h2>
               <p className="mt-6 text-lg text-muted-foreground">
                 We're a Siliguri-based team that has been moving travellers across North Bengal for
                 over a decade. Here's what sets us apart.
