@@ -13,7 +13,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden bg-background">
+    <section className="relative hidden md:flex min-h-[calc(100vh-4rem)] items-center overflow-hidden bg-background">
       {/* Angled Yellow Background (Bottom-Right Triangle) */}
       <div 
         className="absolute inset-0 bg-brand opacity-20 md:opacity-100 pointer-events-none" 

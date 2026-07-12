@@ -22,11 +22,11 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", date: "", pax: "", message: "" });
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `Hi Bengal Taxi, I'd like to book a cab.%0A%0AName: ${form.name}%0APhone: ${form.phone}%0AFrom: ${form.from}%0ATo: ${form.to}%0ADetails: ${form.message}`;
+    const text = `Hi Bengal Taxi, I'd like to book a cab.%0A%0AName: ${form.name}%0APhone: ${form.phone}%0AFrom: ${form.from}%0ATo: ${form.to}%0ADate: ${form.date}%0APax: ${form.pax}%0ADetails: ${form.message}`;
     window.open(`https://wa.me/919933367890?text=${text}`, "_blank");
     setSent(true);
   };
@@ -44,10 +44,10 @@ function ContactPage() {
         subtitle="Available 24×7 for bookings, quotes and travel advice across North Bengal."
       />
 
-      <section className="container-x py-16 md:py-24">
+      <section className="container-x pt-8 pb-16 md:py-24">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           {/* Details */}
-          <ScrollReveal>
+          <ScrollReveal className="order-2 lg:order-1">
             <div className="space-y-6">
               <a href={site.phoneHref} className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground dark:bg-brand/20 dark:group-hover:bg-brand"><Phone className="h-5 w-5" /></span>
@@ -90,7 +90,7 @@ function ContactPage() {
           </ScrollReveal>
 
           {/* Form */}
-          <ScrollReveal delay={0.2} direction="left">
+          <ScrollReveal delay={0.2} direction="left" className="order-1 lg:order-2">
             <form onSubmit={onSubmit} className="rounded-[2rem] border border-border bg-card p-8 md:p-12">
               <h2 className="font-display text-3xl font-extrabold text-foreground">Send a Booking Request</h2>
               <p className="mt-2 text-muted-foreground">Fill out the form and we'll continue the conversation on WhatsApp.</p>
@@ -125,6 +125,14 @@ function ContactPage() {
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">To</label>
                   <input required value={form.to} onChange={(e) => setForm({ ...form, to: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" placeholder="e.g. Darjeeling" />
+                </div>
+                <div className="sm:col-span-1">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Date</label>
+                  <input type="date" required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" />
+                </div>
+                <div className="sm:col-span-1">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pax</label>
+                  <input required value={form.pax} onChange={(e) => setForm({ ...form, pax: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" placeholder="e.g. 4 Guests" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Trip Details</label>
