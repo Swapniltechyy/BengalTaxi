@@ -128,7 +128,7 @@ function ContactPage() {
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Date</label>
-                  <input type="date" required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" />
+                  <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" />
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pax</label>
