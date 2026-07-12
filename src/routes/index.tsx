@@ -89,7 +89,7 @@ function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative h-screen flex items-center overflow-hidden">
+      <section className="relative w-full h-screen flex items-center overflow-hidden">
         {/* Full-bleed background image — object-position pushes the car to the right */}
         <div className="absolute inset-0">
           <img

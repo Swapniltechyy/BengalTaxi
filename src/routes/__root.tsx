@@ -145,7 +145,7 @@ function RootComponent() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="bengal-taxi-theme">
       <QueryClientProvider client={queryClient}>
-        <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden">
           <Navbar />
           <main className="flex-1">
             <Outlet />
