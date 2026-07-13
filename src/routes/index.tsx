@@ -14,11 +14,12 @@ import {
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import heroImg from "@/assets/hero-taxi.png";
-import routeDarjeeling from "@/assets/route-darjeeling.jpg";
+import routeDarjeeling from "@/assets/route-darjeeling.png";
 import routeGangtok from "@/assets/route-gangtok.jpg";
 import routeDooars from "@/assets/route-dooars.jpg";
 import routeAirport from "@/assets/route-airport.jpg";
-import routeKurseong from "@/assets/route-kurseong.jpg"
+import routeKurseong from "@/assets/route-kurseong.jpg";
+import routeMirik from "@/assets/route-mirik.png";
 import { site } from "@/lib/site";
 import { CTASection } from "@/components/CTASection";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -53,7 +54,7 @@ const features = [
 const routes = [
   { img: routeDarjeeling, title: "Siliguri → Darjeeling", note: "Queen of the Hills" },
   { img: routeGangtok, title: "Siliguri → Gangtok", note: "Capital of Sikkim" },
-  { img: routeDarjeeling, title: "NJP → Darjeeling", note: "Station pickup" },
+  { img: routeMirik, title: "Siliguri → Mirik", note: "Mirik Lake View" },
   { img: routeAirport, title: "Bagdogra Airport", note: "On-time pickup & drop" },
   { img: routeDooars, title: "Dooars Sightseeing", note: "Forests, rivers & wildlife" },
   { img: routeKurseong, title: "Siliguri → Kurseong", note: "Hills & Waterfalls" }
@@ -151,32 +152,15 @@ function HomePage() {
         </div>
       </section>
 
-      {/* FEATURES */}
+      {/* POPULAR ROUTES */}
       <section className="container-x py-16 md:py-24">
         <ScrollReveal>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {features.map((f, i) => (
-              <ScrollReveal key={f.title} delay={i * 0.1} direction="up" className="flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-sm">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand dark:bg-brand/20">
-                  <f.icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-lg font-bold text-foreground">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.text}</p>
-              </ScrollReveal>
-            ))}
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* POPULAR ROUTES */}
-      <section className="container-x pb-16 pt-0 md:pb-24 md:pt-4">
-        <ScrollReveal>
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <div className="flex flex-col items-start justify-between gap-6">
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
                 <span className="text-brand mr-2">●</span> Popular Routes
               </p>
-              <h2 className="mt-4 font-display text-xl sm:text-4xl md:text-5xl font-extrabold text-foreground whitespace-nowrap tracking-tight">Where To Travel In North Bengal</h2>
+              <h2 className="mt-4 font-display text-xl sm:text-4xl md:text-5xl font-extrabold text-foreground whitespace-nowrap tracking-tight">Where To Travel In North East </h2>
             </div>
             <Link to="/services" className="inline-flex items-center gap-2 font-semibold text-foreground hover:text-brand transition-colors">
               View all services <ArrowRight className="h-4 w-4" />
@@ -216,6 +200,23 @@ function HomePage() {
             </ScrollReveal>
           ))}
         </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="container-x pb-16 pt-0 md:pb-24 md:pt-4">
+        <ScrollReveal>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {features.map((f, i) => (
+              <ScrollReveal key={f.title} delay={i * 0.1} direction="up" className="flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-sm">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand dark:bg-brand/20">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <h3 className="font-display text-lg font-bold text-foreground">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.text}</p>
+              </ScrollReveal>
+            ))}
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* WHY CHOOSE US */}

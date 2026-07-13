@@ -97,7 +97,7 @@ function ContactPage() {
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Your Name</label>
-                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" placeholder="Full name" />
+                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value.toUpperCase() })} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm uppercase placeholder:normal-case outline-none transition-colors focus:border-brand" placeholder="Full Name" />
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Phone</label>
@@ -128,7 +128,7 @@ function ContactPage() {
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Date</label>
-                  <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={`mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand uppercase dark:[color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-50 ${!form.date ? 'text-muted-foreground' : 'text-foreground'}`} />
+                  <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={`mt-2 w-full min-h-[46px] rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand uppercase dark:[color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-50 ${!form.date ? 'text-muted-foreground' : 'text-foreground'}`} />
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pax</label>
