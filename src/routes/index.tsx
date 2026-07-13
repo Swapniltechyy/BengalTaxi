@@ -19,7 +19,7 @@ import routeGangtok from "@/assets/route-gangtok.jpg";
 import routeDooars from "@/assets/route-dooars.jpg";
 import routeAirport from "@/assets/route-airport.jpg";
 import routeKurseong from "@/assets/route-kurseong.jpg";
-import routeMirik from "@/assets/route-mirik.png";
+import routeMirik from "@/assets/route-Mirik.png";
 import { site } from "@/lib/site";
 import { CTASection } from "@/components/CTASection";
 import { ScrollReveal } from "@/components/ScrollReveal";
