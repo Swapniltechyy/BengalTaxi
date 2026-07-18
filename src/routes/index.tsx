@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getRoutes, getReviews } from "@/lib/api";
 import {
   Phone,
   Clock,
@@ -14,6 +16,7 @@ import {
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import heroImg from "@/assets/hero-taxi.png";
+import heroImgMobile from "@/assets/mobile-view.png";
 import routeDarjeeling from "@/assets/route-darjeeling.png";
 import routeGangtok from "@/assets/route-gangtok.jpg";
 import routeDooars from "@/assets/route-dooars.jpg";
@@ -76,7 +79,7 @@ const reviews = [
   },
   {
     name: "Lay Mankad",
-    place: "Gujrat",
+    place: "Gujarat",
     text: "Did a 4-day Sikkim trip with Bengal Taxi. Clean car, polite driver and they handled every permit. Highly recommended.",
   },
   {
@@ -87,17 +90,33 @@ const reviews = [
 ];
 
 function HomePage() {
+  const { data: dbRoutes } = useQuery({ queryKey: ['routes'], queryFn: getRoutes });
+  const { data: dbReviews } = useQuery({ queryKey: ['reviews'], queryFn: getReviews });
+
+  const displayRoutes = dbRoutes ? dbRoutes.filter(r => r.is_active) : routes;
+  const displayReviews = dbReviews ? dbReviews.filter(r => r.is_active) : reviews;
+
   return (
     <>
       {/* HERO */}
       <section className="relative w-full h-screen flex items-center overflow-hidden">
         {/* Full-bleed background image — object-position pushes the car to the right */}
         <div className="absolute inset-0">
+          {/* Desktop image — hidden on mobile */}
           <img
             src={heroImg}
             alt="Yellow taxi on a Darjeeling hill road"
-            className="h-full w-full object-cover object-right"
+            className="hidden md:block h-full w-full object-cover object-right"
             width={1920}
+            height={1080}
+            loading="eager"
+          />
+          {/* Mobile image — hidden on desktop */}
+          <img
+            src={heroImgMobile}
+            alt="Bengal Taxi on a scenic mountain road"
+            className="block md:hidden h-full w-full object-cover object-center"
+            width={600}
             height={1080}
             loading="eager"
           />
@@ -169,12 +188,12 @@ function HomePage() {
         </ScrollReveal>
 
         <div className="mt-12 grid gap-5 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {routes.map((r, i) => (
+          {displayRoutes.map((r, i) => (
             <ScrollReveal key={r.title} delay={i * 0.1} direction="up">
               <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-sm">
                 <div className="aspect-[16/10] sm:aspect-[4/3] overflow-hidden bg-muted">
                   <img
-                    src={r.img}
+                    src={r.image_url || r.img}
                     alt={r.title}
                     loading="lazy"
                     width={800}
@@ -263,11 +282,11 @@ function HomePage() {
           </div>
         </ScrollReveal>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {reviews.map((r, i) => (
+          {displayReviews.map((r, i) => (
             <ScrollReveal key={r.name} delay={i * 0.1}>
               <figure className="flex h-full flex-col rounded-2xl border border-border bg-card p-8 transition-shadow hover:shadow-sm">
                 <div className="flex gap-1 text-brand">
-                  {Array.from({ length: 5 }).map((_, i) => (
+                  {Array.from({ length: r.rating || 5 }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
@@ -276,7 +295,7 @@ function HomePage() {
                 </blockquote>
                 <figcaption className="mt-8 flex items-center gap-4 border-t border-border pt-6">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 font-display text-base font-bold text-foreground dark:bg-brand/20">
-                    {r.name.split(" ").map((n) => n[0]).join("")}
+                    {r.name.split(" ").map((n: string) => n[0]).join("")}
                   </div>
                   <div>
                     <p className="font-display text-base font-bold text-foreground">{r.name}</p>
