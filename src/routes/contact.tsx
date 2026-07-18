@@ -37,7 +37,7 @@ function ContactPage() {
         title={
           <>
             Talk to Us<br />
-            We'll Get a Cab<br />
+            You'll Get a Cab<br />
             on the Road.
           </>
         }
@@ -73,7 +73,7 @@ function ContactPage() {
                   <p className="mt-1 text-sm text-muted-foreground">Reply within a few hours</p>
                 </div>
               </a>
-              <a 
+              <a
                 href="https://www.google.com/maps/place/Baba+Lokenath+Communication/@26.7154538,88.4266311,17z/data=!3m1!4b1!4m6!3m5!1s0x39e4416d11743705:0x7114c027dc33aeca!8m2!3d26.715449!4d88.429206!16s%2Fg%2F1hdzfqnnp?hl=en-US"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -101,21 +101,21 @@ function ContactPage() {
                 </div>
                 <div className="sm:col-span-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Phone</label>
-                  <input 
-                    required 
-                    type="tel" 
+                  <input
+                    required
+                    type="tel"
                     pattern="\d{10}"
                     maxLength={10}
                     title="Please enter exactly 10 digits"
-                    value={form.phone} 
+                    value={form.phone}
                     onChange={(e) => {
                       const val = e.target.value;
                       if (/^\d{0,10}$/.test(val)) {
                         setForm({ ...form, phone: val });
                       }
-                    }} 
-                    className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand" 
-                    placeholder="10-digit number" 
+                    }}
+                    className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand"
+                    placeholder="10-digit number"
                   />
                 </div>
                 <div className="sm:col-span-1">

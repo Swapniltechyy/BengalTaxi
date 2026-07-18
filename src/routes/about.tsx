@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getAboutContent } from "@/lib/api";
 import { Target, Heart, ShieldCheck, MapPin, Award, Smile } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { CTASection } from "@/components/CTASection";
@@ -20,11 +22,23 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const { data: dbAbout } = useQuery({ queryKey: ['aboutContent'], queryFn: getAboutContent });
+
+  // Use DB data, fallback to hardcoded text
+  const heroTitle = dbAbout?.hero_title || "Born in Siliguri. Trusted Across the Hills.";
+  const heroSubtitle = dbAbout?.hero_subtitle || "Bengal Taxi is a locally-run cab service providing safe, comfortable and affordable travel across North Bengal, Darjeeling, Sikkim and the Dooars.";
+  
+  const storyP1 = dbAbout?.story_p1 || "Bengal Taxi is a trusted taxi service provider based in Siliguri, serving North Bengal, Darjeeling, Sikkim and nearby destinations with safe and reliable transportation services. What started as a single sedan running airport pickups from Bagdogra has grown into a dependable fleet of sedans and SUVs covering every popular hill route.";
+  const storyP2 = dbAbout?.story_p2 || "We're not a faceless aggregator. Every driver on our roster is local, hill-trained and personally known to our team. That means real accountability, real road sense and a quality of ride that you can feel from the moment your trip begins.";
+  const storyP3 = dbAbout?.story_p3 || "Whether you are landing at Bagdogra after a long flight, planning a Darjeeling holiday or putting together a Sikkim circuit — we'll put the right car, the best driver and the best itinerary on the road for you.";
+  
+  const mission = dbAbout?.mission || "Provide comfortable, safe and affordable travel experiences across North Bengal — with transparent pricing, dependable drivers and a phone that is always answered.";
+
   return (
     <>
       <PageHero
-        title="Born in Siliguri. Trusted Across the Hills."
-        subtitle="Bengal Taxi is a locally-run cab service providing safe, comfortable and affordable travel across North Bengal, Darjeeling, Sikkim and the Dooars."
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       <section className="container-x py-16 md:py-24">
@@ -32,22 +46,9 @@ function AboutPage() {
           <ScrollReveal>
             <article className="space-y-6 text-lg leading-relaxed text-muted-foreground">
               <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl">Our Story</h2>
-              <p>
-                Bengal Taxi is a trusted taxi service provider based in Siliguri, serving North Bengal,
-                Darjeeling, Sikkim and nearby destinations with safe and reliable transportation services.
-                What started as a single sedan running airport pickups from Bagdogra has grown into a
-                dependable fleet of sedans and SUVs covering every popular hill route.
-              </p>
-              <p>
-                We're not a faceless aggregator. Every driver on our roster is local, hill-trained and
-                personally known to our team. That means real accountability, real road sense and a
-                quality of ride that you can feel from the moment your trip begins.
-              </p>
-              <p>
-                Whether you are landing at Bagdogra after a long flight, planning a Darjeeling holiday or
-                putting together a Sikkim circuit — we'll put the right car, the best driver and the
-                best itinerary on the road for you.
-              </p>
+              <p>{storyP1}</p>
+              <p>{storyP2}</p>
+              <p>{storyP3}</p>
             </article>
           </ScrollReveal>
 
@@ -59,10 +60,7 @@ function AboutPage() {
                 </span>
                 <h3 className="font-display text-2xl font-bold text-foreground">Our Mission</h3>
               </div>
-              <p className="mt-6 text-muted-foreground">
-                Provide comfortable, safe and affordable travel experiences across North Bengal — with
-                transparent pricing, dependable drivers and a phone that is always answered.
-              </p>
+              <p className="mt-6 text-muted-foreground">{mission}</p>
               <ul className="mt-8 grid gap-4 text-sm font-medium text-foreground/80">
                 <li className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand" /> Verified drivers and insured vehicles</li>
                 <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand" /> Deep local knowledge of every hill route</li>

@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getVehicles } from "@/lib/api";
 import { Users, Briefcase, Snowflake, Phone, Music } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { PageHero } from "@/components/PageHero";
@@ -74,6 +76,11 @@ const cars = [
 ];
 
 function FleetPage() {
+  const { data: dbCars, isLoading } = useQuery({ queryKey: ['vehicles'], queryFn: getVehicles });
+  
+  // Use database cars if available, filtering out inactive ones. Fallback to hardcoded array.
+  const displayCars = dbCars ? dbCars.filter(c => c.is_active) : cars;
+
   return (
     <>
       <PageHero
@@ -83,12 +90,12 @@ function FleetPage() {
 
       <section className="container-x py-16 md:py-24">
         <div className="grid gap-10 md:grid-cols-2">
-          {cars.map((c, i) => (
+          {displayCars.map((c, i) => (
             <ScrollReveal key={c.name} delay={i * 0.1} direction="up">
               <article className="overflow-hidden rounded-[2rem] border border-border bg-card transition-shadow hover:shadow-sm hover:border-foreground/20">
                 <div className="aspect-[16/10] bg-muted/50 p-8 flex items-center justify-center">
                   <img
-                    src={c.img}
+                    src={c.image_url || c.img}
                     alt={c.name}
                     loading="lazy"
                     width={900}
@@ -121,7 +128,7 @@ function FleetPage() {
                   </dl>
 
                   <ul className="mt-6 space-y-2.5 text-sm text-muted-foreground">
-                    {c.features.map((f) => (
+                    {c.features.map((f: string) => (
                       <li key={f} className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-brand" /> {f}
                       </li>

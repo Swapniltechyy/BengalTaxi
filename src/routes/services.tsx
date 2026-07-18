@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getServices } from "@/lib/api";
 import {
   Plane,
   Car,
@@ -43,7 +45,16 @@ const services = [
   { icon: Briefcase, title: "Corporate Taxi", text: "Professional travel for business needs.", points: ["Monthly billing", "Executive cars", "Dedicated support"] },
 ];
 
+const IconMap: Record<string, React.ElementType> = {
+  Plane, Car, MapPin, Mountain, Trees, Briefcase, CheckCircle2
+};
+
 function ServicesPage() {
+  const { data: dbServices, isLoading } = useQuery({ queryKey: ['services'], queryFn: getServices });
+  
+  // Use database services if available, filtering out inactive ones. Fallback to hardcoded array.
+  const displayServices = dbServices ? dbServices.filter(s => s.is_active) : services;
+
   return (
     <>
       <PageHero
@@ -66,10 +77,14 @@ function ServicesPage() {
 
       <section className="container-x py-16 md:py-24">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
+          {displayServices.map((s, i) => {
+            // For DB items, we need to map the string to the icon component
+            const IconComponent = s.icon_name ? (IconMap[s.icon_name] || CheckCircle2) : s.icon;
+            
+            return (
             <ScrollReveal key={s.title} delay={i * 0.1} direction="up" className="group flex flex-col rounded-2xl border border-border bg-card p-8 transition-shadow hover:shadow-sm hover:border-foreground/20">
               <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand dark:bg-brand/20">
-                <s.icon className="h-5 w-5" />
+                <IconComponent className="h-5 w-5" />
               </div>
               <div className="relative w-fit z-10">
                 <h3 className="font-display text-xl font-bold uppercase text-foreground">{s.title}</h3>
@@ -99,7 +114,7 @@ function ServicesPage() {
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
               <ul className="mt-6 mb-8 space-y-3 flex-1">
-                {s.points.map((p) => (
+                {s.points.map((p: string) => (
                   <li key={p} className="flex items-start gap-3 text-sm text-foreground/80">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                     <span>{p}</span>
@@ -115,7 +130,8 @@ function ServicesPage() {
                 <WhatsAppIcon className="h-4 w-4" /> Enquire on WhatsApp
               </a>
             </ScrollReveal>
-          ))}
+            );
+          })}
         </div>
 
         <ScrollReveal delay={0.3} direction="up" className="mt-16 rounded-[2rem] border border-dashed border-border bg-muted/30 p-8 md:p-12 md:flex md:items-center md:justify-between md:gap-8 max-w-4xl mx-auto">

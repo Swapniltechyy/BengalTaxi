@@ -142,16 +142,19 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useRouter().state.location;
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <ThemeProvider defaultTheme="light" storageKey="bengal-taxi-theme">
       <QueryClientProvider client={queryClient}>
         <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden">
-          <Navbar />
-          <main className="flex-1 pt-16">
+          {!isAdminRoute && <Navbar />}
+          <main className={`flex-1 ${!isAdminRoute ? 'pt-16' : ''}`}>
             <Outlet />
           </main>
-          <Footer />
-          <FloatingActions />
+          {!isAdminRoute && <Footer />}
+          {!isAdminRoute && <FloatingActions />}
         </div>
       </QueryClientProvider>
     </ThemeProvider>
