@@ -4,7 +4,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export function CTASection() {
   return (
-    <section className="container-x my-20">
+    <section id="cta-section" className="container-x my-20">
       <ScrollReveal>
         <div className="relative overflow-hidden rounded-[2.5rem] bg-[#FAFAFA] dark:bg-muted/30 px-6 py-20 text-center md:px-12 md:py-28 border border-border">
           {/* Soft yellow blurred gradients */}

@@ -187,7 +187,7 @@ function HomePage() {
           </div>
         </ScrollReveal>
 
-        <div className="mt-12 grid gap-5 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div id="routes-grid" className="mt-12 grid gap-5 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {displayRoutes.map((r, i) => (
             <ScrollReveal key={r.title} delay={i * 0.1} direction="up">
               <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-sm">
@@ -272,7 +272,7 @@ function HomePage() {
       </section>
 
       {/* REVIEWS */}
-      <section className="container-x py-16 md:py-24">
+      <section id="reviews-section" className="container-x py-16 md:py-24">
         <ScrollReveal>
           <div className="max-w-2xl text-center mx-auto">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">

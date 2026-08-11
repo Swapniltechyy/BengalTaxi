@@ -50,6 +50,17 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="container-x flex flex-col gap-2 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Bengal Taxi. All rights reserved.</p>
+          <p>
+            Design & Developed by{" "}
+            <a
+              href="https://www.swapniltech.com/#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium hover:text-brand transition-colors md:font-semibold md:text-foreground"
+            >
+              SWAPNIL
+            </a>
+          </p>
         </div>
       </div>
     </footer>
