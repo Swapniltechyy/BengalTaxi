@@ -242,7 +242,7 @@ function AdminDashboard() {
                       {String(i + 1).padStart(2, '0')}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-foreground">{route.from} → {route.to}</p>
+                      <p className="text-sm font-semibold text-foreground">{route.title}</p>
                       {route.distance && (
                         <p className="text-xs text-muted-foreground">{route.distance}</p>
                       )}

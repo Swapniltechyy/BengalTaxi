@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect, useRouter } from '@tanstack/react-router';
-import { getSession, signOut } from '@/lib/auth';
+import { isAuthenticated, signOut } from '@/lib/auth';
 import {
   ShieldCheck, LogOut, LayoutDashboard, Map, Car, Settings,
   Star, Info, Package, ChevronRight, ExternalLink, Menu, X,
@@ -11,17 +11,6 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@/components/ThemeProvider';
 
 export const Route = createFileRoute('/admin')({
-  beforeLoad: async ({ location }) => {
-    // If we're already on the login page, don't check for session to avoid redirect loop
-    if (location.pathname === '/admin/login') return;
-
-    const { session } = await getSession();
-    if (!session) {
-      throw redirect({
-        to: '/admin/login',
-      });
-    }
-  },
   component: AdminLayout,
 });
 
@@ -40,6 +29,24 @@ function AdminLayout() {
   const location = router.state.location;
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(location.pathname !== '/admin/login');
+  
+  useEffect(() => {
+    if (location.pathname === '/admin/login') {
+      setIsCheckingAuth(false);
+      return;
+    }
+    
+    // Check auth safely after component mounts
+    isAuthenticated().then((auth) => {
+      if (!auth) {
+        router.navigate({ to: '/admin/login' });
+      } else {
+        setIsCheckingAuth(false);
+      }
+    });
+  }, [location.pathname, router]);
+
   const [collapsed, setCollapsed] = useState(() => {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('admin-sidebar-collapsed') === 'true';
@@ -53,6 +60,11 @@ function AdminLayout() {
   // Don't show the dashboard layout on the login page
   if (location.pathname === '/admin/login') {
     return <Outlet />;
+  }
+
+  // Show nothing while verifying auth to prevent flashing protected content
+  if (isCheckingAuth) {
+    return <div className="min-h-screen bg-background flex items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" /></div>;
   }
 
   const handleSignOut = async () => {

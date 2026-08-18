@@ -139,6 +139,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -156,6 +157,7 @@ function RootComponent() {
           {!isAdminRoute && <Footer />}
           {!isAdminRoute && <FloatingActions />}
         </div>
+        <Toaster richColors position="bottom-right" />
       </QueryClientProvider>
     </ThemeProvider>
   );

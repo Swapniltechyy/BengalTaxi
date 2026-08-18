@@ -94,14 +94,31 @@ function FleetPage() {
             <ScrollReveal key={c.name} delay={i * 0.1} direction="up">
               <article className="overflow-hidden rounded-[2rem] border border-border bg-card transition-shadow hover:shadow-sm hover:border-foreground/20">
                 <div className="aspect-[16/10] bg-muted/50 p-8 flex items-center justify-center">
-                  <img
-                    src={c.image_url || c.img}
-                    alt={c.name}
-                    loading="lazy"
-                    width={900}
-                    height={600}
-                    className="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal drop-shadow-md"
-                  />
+                  {c.image_url || c.img ? (
+                    <img
+                      src={c.image_url || c.img}
+                      alt={c.name}
+                      loading="lazy"
+                      width={900}
+                      height={600}
+                      className="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal drop-shadow-md"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        const parent = (e.target as HTMLImageElement).parentElement;
+                        if (parent && !parent.querySelector('.img-fallback')) {
+                          const fallback = document.createElement('div');
+                          fallback.className = 'img-fallback flex flex-col items-center justify-center text-muted-foreground w-full h-full';
+                          fallback.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span class="mt-2 text-xs font-medium">Image unavailable</span>';
+                          parent.appendChild(fallback);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-muted-foreground w-full h-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                      <span className="mt-2 text-xs font-medium">No image</span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-8 md:p-10">
                   <div className="flex items-start justify-between gap-4">
