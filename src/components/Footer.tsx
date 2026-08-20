@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { site } from "@/lib/site";
 
@@ -23,6 +23,21 @@ export function Footer() {
           <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Explore</h4>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li><Link to="/" className="hover:text-foreground">Home</Link></li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  if (window.location.pathname === "/") {
+                    const el = document.getElementById("popular-routes");
+                    if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
+                  }
+                  window.location.href = "/#popular-routes";
+                }}
+              >
+                Destinations
+              </button>
+            </li>
             <li><Link to="/services" className="hover:text-foreground">Services</Link></li>
             <li><Link to="/fleet" className="hover:text-foreground">Vehicle</Link></li>
             <li><Link to="/about" className="hover:text-foreground">About</Link></li>

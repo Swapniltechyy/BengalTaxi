@@ -41,7 +41,7 @@ function ImageWithFallback({ src, alt, className }: { src: string; alt: string; 
   if (error || !src) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground bg-muted">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>
         <span className="mt-2 text-xs font-medium">Image unavailable</span>
       </div>
     );
@@ -277,11 +277,10 @@ function RouteModal({
               <button
                 type="button"
                 onClick={() => setForm((f) => ({ ...f, is_active: !f.is_active }))}
-                className={`flex h-[42px] items-center gap-2 rounded-xl border px-4 text-sm font-medium transition-colors ${
-                  form.is_active
-                    ? 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400'
-                    : 'border-border bg-muted/30 text-muted-foreground'
-                }`}
+                className={`flex h-[42px] items-center gap-2 rounded-xl border px-4 text-sm font-medium transition-colors ${form.is_active
+                  ? 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400'
+                  : 'border-border bg-muted/30 text-muted-foreground'
+                  }`}
               >
                 {form.is_active ? (
                   <><Eye className="h-4 w-4" /> Visible</>
@@ -382,7 +381,7 @@ function ManageRoutes() {
 
   return (
     <div>
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-extrabold text-foreground">Popular Routes</h1>
           <p className="mt-2 text-muted-foreground">
@@ -391,9 +390,9 @@ function ManageRoutes() {
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-bold text-brand-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-bold text-brand-foreground transition-transform hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
         >
-          <Plus className="h-4 w-4" /> Add Route
+          <Plus className="h-4 w-4" />Add Destination
         </button>
       </div>
 
@@ -401,16 +400,15 @@ function ManageRoutes() {
         {routes?.map((route: RouteItem) => (
           <div
             key={route.id}
-            className={`overflow-hidden rounded-2xl border bg-card transition-all ${
-              route.is_active ? 'border-border' : 'border-border/50 opacity-60'
-            }`}
+            className={`overflow-hidden rounded-2xl border bg-card transition-all ${route.is_active ? 'border-border' : 'border-border/50 opacity-60'
+              }`}
           >
             <div className="aspect-video w-full bg-muted overflow-hidden relative">
-                <ImageWithFallback
-                  src={route.image_url}
-                  alt={route.title}
-                  className="h-full w-full object-cover"
-                />
+              <ImageWithFallback
+                src={route.image_url}
+                alt={route.title}
+                className="h-full w-full object-cover"
+              />
               {!route.is_active && (
                 <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-sm">
                   <span className="font-bold text-foreground flex items-center gap-2">

@@ -206,7 +206,7 @@ function AdminLayout() {
       {/* ── Main Content ────────────────────────────── */}
       <main className={`flex-1 transition-all duration-300 ease-in-out ${mainMargin}`}>
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card/80 px-4 backdrop-blur-xl sm:px-8">
+        <header className="fixed top-0 right-0 left-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card/80 px-4 backdrop-blur-xl sm:px-8 lg:left-[var(--sidebar-w)]" style={{ '--sidebar-w': collapsed ? '72px' : '260px' } as React.CSSProperties}>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
@@ -245,7 +245,7 @@ function AdminLayout() {
         </header>
 
         {/* Page content */}
-        <div className="p-4 sm:p-8">
+        <div className="pt-20 px-4 pb-4 sm:pt-24 sm:px-8 sm:pb-8">
           <Outlet />
         </div>
       </main>

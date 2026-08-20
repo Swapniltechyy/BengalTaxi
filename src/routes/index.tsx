@@ -171,13 +171,13 @@ function HomePage() {
         </div>
       </section>
 
-      {/* POPULAR ROUTES */}
-      <section className="container-x py-16 md:py-24">
+      {/* POPULAR DESTINATIONS */}
+      <section id="popular-routes" className="container-x py-16 md:py-24">
         <ScrollReveal>
           <div className="flex flex-col items-start justify-between gap-6">
             <div className="max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-foreground">
-                <span className="text-brand mr-2">●</span> Popular Routes
+              <p className="text-sm font-bold uppercase tracking-[0.1em] text-foreground">
+                <span className="text-brand mr-2">●</span>Destinations
               </p>
               <h2 className="mt-4 font-display text-xl sm:text-4xl md:text-5xl font-extrabold text-foreground whitespace-nowrap tracking-tight">Where To Travel In North East </h2>
             </div>

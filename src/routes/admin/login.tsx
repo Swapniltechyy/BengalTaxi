@@ -48,17 +48,18 @@ function AdminLogin() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
+            <label className="mb-1.5 block text-sm font-medium text-foreground">Username</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand"
-              placeholder="admin@bengaltaxi.com"
+              placeholder="••••••••"
+            // "admin@bengaltaxi.com"
             />
           </div>
-          
+
           <div>
             <label className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
             <input
