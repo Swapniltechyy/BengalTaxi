@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { getRoutes, getReviews } from "@/lib/api";
 import {
   Phone,
@@ -13,6 +14,7 @@ import {
   Headphones,
   CheckCircle2,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import heroImg from "@/assets/hero-taxi.png";
@@ -28,6 +30,41 @@ import { CTASection } from "@/components/CTASection";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 
+const faqs = [
+  {
+    q: "How do I book a cab with Bengal Taxi?",
+    a: "Simply call or WhatsApp us at +91 99333 67890 — available 24×7. Tell us your pickup location, destination and date, and we'll confirm your booking instantly.",
+  },
+  {
+    q: "Do you provide Bagdogra Airport pickup and drop?",
+    a: "Yes! We offer dedicated airport transfer service from Bagdogra Airport (IXB) to Darjeeling, Gangtok, Sikkim, Dooars, Siliguri and all North Bengal destinations.",
+  },
+  {
+    q: "What is the fare from Siliguri to Darjeeling?",
+    a: "Fares depend on the vehicle type and exact pickup point. We share a fixed quote upfront before your trip — no surge pricing or hidden charges. Call us for an instant quote.",
+  },
+  {
+    q: "Do you help with Sikkim permits?",
+    a: "Yes. Our drivers are fully experienced with Sikkim Inner Line Permits (ILP). We assist you with the documentation process for North Sikkim and restricted area entry.",
+  },
+  {
+    q: "What vehicles are available for hill routes?",
+    a: "We operate Innova and Innova Crysta SUVs — best suited for Darjeeling, Sikkim and Dooars hill routes. For larger groups, we have Tempo Travellers accommodating up to 16 passengers.",
+  },
+  {
+    q: "Is the service available on holidays and late at night?",
+    a: "Absolutely. Bengal Taxi operates 24 hours a day, 365 days a year — including all public holidays, festive seasons and midnight pickups.",
+  },
+  {
+    q: "Can I book a cab for a multi-day tour?",
+    a: "Yes, we specialise in multi-day packages for Sikkim circuits, Dooars wildlife tours and Darjeeling itineraries. Contact us to get a custom itinerary and quote.",
+  },
+  {
+    q: "Are your drivers verified and experienced?",
+    a: "Every driver in our fleet is locally trained, hill-route experienced and personally known to our team. All vehicles are GPS tracked and fully insured.",
+  },
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -39,12 +76,67 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Bengal Taxi — Cabs Across North Bengal" },
       { property: "og:description", content: "Airport transfers, Darjeeling, Sikkim, Dooars tours and local taxis." },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://bengaltaxi.com/" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://bengaltaxi.com/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "TaxiService",
+          name: "Bengal Taxi",
+          url: "https://bengaltaxi.com",
+          telephone: "+91-99333-67890",
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            reviewCount: "50000",
+            bestRating: "5",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.q,
+            acceptedAnswer: { "@type": "Answer", text: faq.a },
+          })),
+        }),
+      },
+    ],
   }),
   component: HomePage,
 });
+
+function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <ScrollReveal delay={index * 0.05} direction="up">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden transition-all hover:border-foreground/20">
+        <button
+          onClick={() => setOpen(!open)}
+          className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+          aria-expanded={open}
+        >
+          <span className="font-display text-base font-semibold text-foreground">{q}</span>
+          <ChevronDown
+            className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+        >
+          <p className="px-6 pb-6 text-sm leading-relaxed text-muted-foreground">{a}</p>
+        </div>
+      </div>
+    </ScrollReveal>
+  );
+}
 
 const features = [
   { icon: Clock, title: "24×7 Service", text: "Day or night, your ride is one call away." },
@@ -127,12 +219,12 @@ function HomePage() {
         <div className="container-x relative z-10">
           <ScrollReveal direction="right">
             <div className="max-w-3xl">
-              <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-                Most Reliable<br />
+              <h1 className="font-display text-4xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-5xl sm:leading-[1.08] md:text-6xl lg:text-7xl">
+                Most&nbsp;<br />Reliable & Affordable<br />
                 <span className="whitespace-nowrap">Taxi Service Across</span><br />
                 <span className="text-brand whitespace-nowrap">Sikkim & Bengal</span>
               </h1>
-              <p className="mt-5 max-w-md text-base text-white/70 md:text-lg">
+              <p className="mt-6 max-w-md text-base text-white/70 md:mt-5 md:text-lg">
                 Airport transfers, Darjeeling & Sikkim tours, and local taxi
                 services — book in a single call.
               </p>
@@ -310,6 +402,41 @@ function HomePage() {
           <CheckCircle2 className="h-5 w-5 text-brand" />
           Verified pickups · Driver verification · Trip-level insurance
         </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section id="faq" className="container-x py-16 md:py-24">
+        <ScrollReveal>
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.1em] text-foreground">
+              <span className="text-brand mr-2">●</span>Common Questions
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-extrabold text-foreground sm:text-4xl md:text-5xl">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Everything you need to know before booking your cab across North Bengal.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-12 max-w-3xl mx-auto space-y-3">
+          {faqs.map((faq, i) => (
+            <FaqItem key={i} index={i} q={faq.q} a={faq.a} />
+          ))}
+        </div>
+
+        <ScrollReveal delay={0.3}>
+          <p className="mt-10 text-center text-sm text-muted-foreground">
+            Still have questions?{" "}
+            <a href="tel:+919933367890" className="font-semibold text-foreground underline underline-offset-2 hover:text-brand transition-colors">
+              Call us 24×7
+            </a>{" "}or{" "}
+            <Link to="/contact" className="font-semibold text-foreground underline underline-offset-2 hover:text-brand transition-colors">
+              send a message
+            </Link>.
+          </p>
+        </ScrollReveal>
       </section>
 
       <CTASection />

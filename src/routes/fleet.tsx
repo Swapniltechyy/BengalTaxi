@@ -20,9 +20,22 @@ export const Route = createFileRoute("/fleet")({
       { name: "description", content: "Swift Dzire, Ertiga, Innova and Innova Crysta — clean, well-maintained cabs for every group size and route across North Bengal." },
       { property: "og:title", content: "Bengal Taxi — Fleet" },
       { property: "og:description", content: "Sedans, MPVs and SUVs maintained for hill driving." },
-      { property: "og:url", content: "/fleet" },
+      { property: "og:url", content: "https://bengaltaxi.com/fleet" },
     ],
-    links: [{ rel: "canonical", href: "/fleet" }],
+    links: [{ rel: "canonical", href: "https://bengaltaxi.com/fleet" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://bengaltaxi.com/" },
+            { "@type": "ListItem", position: 2, name: "Fleet", item: "https://bengaltaxi.com/fleet" },
+          ],
+        }),
+      },
+    ],
   }),
   component: FleetPage,
 });

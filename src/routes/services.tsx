@@ -26,9 +26,56 @@ export const Route = createFileRoute("/services")({
       { name: "description", content: "Airport pickup & drop, local taxi, outstation, Darjeeling, Sikkim and Dooars tour taxis, plus corporate cab service." },
       { property: "og:title", content: "Bengal Taxi — Services" },
       { property: "og:description", content: "Every kind of cab need across North Bengal in one place." },
-      { property: "og:url", content: "/services" },
+      { property: "og:url", content: "https://bengaltaxi.com/services" },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
+    links: [{ rel: "canonical", href: "https://bengaltaxi.com/services" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://bengaltaxi.com/" },
+            { "@type": "ListItem", position: 2, name: "Services", item: "https://bengaltaxi.com/services" },
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "How do I book a cab with Bengal Taxi?",
+              acceptedAnswer: { "@type": "Answer", text: "You can book by calling us at +91-99333-67890 or sending a WhatsApp message. We are available 24×7." },
+            },
+            {
+              "@type": "Question",
+              name: "Do you offer Bagdogra Airport transfers?",
+              acceptedAnswer: { "@type": "Answer", text: "Yes, we offer airport pickup and drop service from Bagdogra Airport (IXB) to all destinations across North Bengal including Darjeeling, Sikkim and Dooars." },
+            },
+            {
+              "@type": "Question",
+              name: "What types of vehicles are available?",
+              acceptedAnswer: { "@type": "Answer", text: "We have a fleet of Swift Dzire (sedan), Ertiga (MPV), Innova and Innova Crysta (SUV), and Tempo Traveller for groups up to 16 passengers." },
+            },
+            {
+              "@type": "Question",
+              name: "Do you cover Sikkim tours?",
+              acceptedAnswer: { "@type": "Answer", text: "Yes, we offer complete Sikkim tour packages including permit assistance, multi-day packages, and 4×4 vehicles for North Sikkim." },
+            },
+            {
+              "@type": "Question",
+              name: "Is the pricing fixed or metered?",
+              acceptedAnswer: { "@type": "Answer", text: "We offer fixed, transparent pricing shared upfront before your trip. No surge pricing or hidden charges." },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: ServicesPage,
 });

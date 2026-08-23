@@ -14,9 +14,22 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Bengal Taxi is a Siliguri-based cab service trusted by travellers across North Bengal, Darjeeling and Sikkim for safe, reliable rides." },
       { property: "og:title", content: "About Bengal Taxi" },
       { property: "og:description", content: "Siliguri's trusted taxi service since over a decade." },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: "https://bengaltaxi.com/about" },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "https://bengaltaxi.com/about" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://bengaltaxi.com/" },
+            { "@type": "ListItem", position: 2, name: "About", item: "https://bengaltaxi.com/about" },
+          ],
+        }),
+      },
+    ],
   }),
   component: AboutPage,
 });

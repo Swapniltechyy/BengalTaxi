@@ -13,9 +13,48 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with Bengal Taxi in Siliguri for cab bookings, airport transfers and North Bengal tours. Call, WhatsApp or send a message." },
       { property: "og:title", content: "Contact Bengal Taxi" },
       { property: "og:description", content: "Reach us by phone, WhatsApp, email or our contact form." },
-      { property: "og:url", content: "/contact" },
+      { property: "og:url", content: "https://bengaltaxi.com/contact" },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: "https://bengaltaxi.com/contact" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://bengaltaxi.com/" },
+            { "@type": "ListItem", position: 2, name: "Contact", item: "https://bengaltaxi.com/contact" },
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Bengal Taxi",
+          url: "https://bengaltaxi.com",
+          telephone: "+91-99333-67890",
+          email: "bengaltaxi@gmail.com",
+          openingHours: "Mo-Su 00:00-23:59",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Hill Cart Road",
+            addressLocality: "Siliguri",
+            addressRegion: "West Bengal",
+            postalCode: "734001",
+            addressCountry: "IN",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: "26.7154",
+            longitude: "88.4266",
+          },
+          hasMap: "https://www.google.com/maps/place/Baba+Lokenath+Communication,+Siliguri",
+        }),
+      },
+    ],
   }),
   component: ContactPage,
 });
