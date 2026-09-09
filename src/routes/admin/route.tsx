@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect, useRouter } from '@tanstack/react-router';
-import { isAuthenticated, signOut } from '@/lib/auth';
+import { isAuthenticated, signOut, recordAdminActivity } from '@/lib/auth';
 import {
   ShieldCheck, LogOut, LayoutDashboard, Map, Car, Settings,
   Star, Info, Package, ChevronRight, ExternalLink, Menu, X,
@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -32,6 +32,7 @@ function AdminLayout() {
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(location.pathname !== '/admin/login');
+  const lastActiveThrottleRef = useRef(0);
   
   useEffect(() => {
     if (location.pathname === '/admin/login') {
@@ -47,6 +48,50 @@ function AdminLayout() {
         setIsCheckingAuth(false);
       }
     });
+  }, [location.pathname, router]);
+
+  // Keep session alive while admin is actively interacting with the dashboard
+  useEffect(() => {
+    if (location.pathname === '/admin/login') return;
+
+    const handleUserActivity = () => {
+      const now = Date.now();
+      if (now - lastActiveThrottleRef.current > 10000) {
+        lastActiveThrottleRef.current = now;
+        recordAdminActivity();
+      }
+    };
+
+    window.addEventListener('mousemove', handleUserActivity, { passive: true });
+    window.addEventListener('keydown', handleUserActivity, { passive: true });
+    window.addEventListener('click', handleUserActivity, { passive: true });
+    window.addEventListener('scroll', handleUserActivity, { passive: true });
+
+    // Periodic check every 20 seconds for inactivity or session revocation
+    const checkInterval = setInterval(async () => {
+      const valid = await isAuthenticated();
+      if (!valid) {
+        toast.info('Session ended. Please log in again.');
+        router.navigate({ to: '/admin/login' });
+      }
+    }, 20000);
+
+    // Handle BFCache (e.g. user navigated to another site and clicked Back button)
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        signOut().then(() => router.navigate({ to: '/admin/login' }));
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      window.removeEventListener('mousemove', handleUserActivity);
+      window.removeEventListener('keydown', handleUserActivity);
+      window.removeEventListener('click', handleUserActivity);
+      window.removeEventListener('scroll', handleUserActivity);
+      window.removeEventListener('pageshow', handlePageShow);
+      clearInterval(checkInterval);
+    };
   }, [location.pathname, router]);
 
   const [collapsed, setCollapsed] = useState(() => {
@@ -164,8 +209,10 @@ function AdminLayout() {
         {/* Bottom section */}
         <div className="shrink-0 border-t border-border p-2 space-y-1">
           {/* View Live Site */}
-          <Link
-            to="/"
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
             className={`group relative flex items-center rounded-xl text-sm font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors ${
               collapsed && !mobileOpen ? 'justify-center px-0 py-2.5 mx-1' : 'gap-3 px-3 py-2'
             }`}
@@ -180,7 +227,8 @@ function AdminLayout() {
                 View Live Site
               </span>
             )}
-          </Link>
+          </a>
+
 
           {/* Sign Out */}
           <button

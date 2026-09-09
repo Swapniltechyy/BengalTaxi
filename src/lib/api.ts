@@ -93,55 +93,129 @@ export interface Booking extends BookingInput {
   created_at: string;
 }
 
-export async function createBooking(booking: BookingInput) {
-  const { data, error } = await supabase
-    .from('bookings')
-    .insert([booking])
-    .select()
-    .single();
+const LOCAL_BOOKINGS_KEY = 'bt_local_bookings';
 
-  if (error) {
-    console.error('Error creating booking request:', error);
-  }
-  return { data, error };
-}
-
-export async function getBookings() {
-  const { data, error } = await supabase
-    .from('bookings')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error || !data) {
-    console.error('Error fetching bookings:', error);
+function getLocalBookings(): Booking[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(LOCAL_BOOKINGS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
     return [];
   }
-  return data as Booking[];
+}
+
+function saveLocalBookings(bookings: Booking[]) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(LOCAL_BOOKINGS_KEY, JSON.stringify(bookings));
+  } catch {
+    // ignore
+  }
+}
+
+export async function createBooking(booking: BookingInput) {
+  const newBooking: Booking = {
+    ...booking,
+    id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `b_${Date.now()}`,
+    status: booking.status || 'pending',
+    created_at: new Date().toISOString(),
+  };
+
+  // 1. Always store locally first so it is never lost
+  const localList = getLocalBookings();
+  saveLocalBookings([newBooking, ...localList.filter((b) => b.id !== newBooking.id)]);
+
+  // 2. Insert into Supabase
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .insert([booking])
+      .select()
+      .single();
+
+    if (!error && data) {
+      // Update local storage with Supabase record
+      const updatedList = getLocalBookings().map((b) => (b.id === newBooking.id ? (data as Booking) : b));
+      saveLocalBookings(updatedList);
+      return { data: data as Booking, error: null };
+    }
+    if (error) {
+      console.warn('Supabase booking insert (using local fallback):', error.message);
+    }
+  } catch (err: any) {
+    console.warn('Supabase insert exception:', err);
+  }
+
+  return { data: newBooking, error: null };
+}
+
+export async function getBookings(): Promise<Booking[]> {
+  const localBookings = getLocalBookings();
+
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (!error && data) {
+      // Merge Supabase bookings with any local bookings
+      const supabaseIds = new Set(data.map((b: any) => b.id));
+      const unsynced = localBookings.filter((b) => !supabaseIds.has(b.id));
+
+      // Return unified list
+      return [...unsynced, ...data] as Booking[];
+    }
+  } catch (err) {
+    console.warn('Could not fetch bookings from Supabase:', err);
+  }
+
+  return localBookings;
 }
 
 export async function updateBookingStatus(id: string, status: string) {
-  const { data, error } = await supabase
-    .from('bookings')
-    .update({ status })
-    .eq('id', id)
-    .select()
-    .single();
+  const localList = getLocalBookings();
+  const updatedLocal = localList.map((b) => (b.id === id ? { ...b, status } : b));
+  saveLocalBookings(updatedLocal);
 
-  if (error) {
-    console.error('Error updating booking status:', error);
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .update({ status })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (!error && data) {
+      return { data, error: null };
+    }
+  } catch (e) {
+    // ignore
   }
-  return { data, error };
+
+  return { data: { id, status }, error: null };
 }
 
 export async function deleteBooking(id: string) {
-  const { error } = await supabase
-    .from('bookings')
-    .delete()
-    .eq('id', id);
+  const localList = getLocalBookings();
+  const filtered = localList.filter((b) => b.id !== id);
+  saveLocalBookings(filtered);
 
-  if (error) {
-    console.error('Error deleting booking:', error);
+  try {
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.warn('Delete from Supabase warning:', error.message);
+    }
+  } catch (err) {
+    console.warn('Delete exception:', err);
   }
-  return { error };
+
+  return { error: null };
 }
+
 

@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { isAuthenticated, markAdminLoggedIn } from '@/lib/auth';
 import { ShieldCheck, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -13,6 +14,14 @@ function AdminLogin() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate({ from: '/admin/login' });
+
+  useEffect(() => {
+    isAuthenticated().then((auth) => {
+      if (auth) {
+        navigate({ to: '/admin' });
+      }
+    });
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +37,7 @@ function AdminLogin() {
     if (error) {
       toast.error(error.message);
     } else {
+      markAdminLoggedIn();
       toast.success('Logged in successfully');
       navigate({ to: '/admin' });
     }

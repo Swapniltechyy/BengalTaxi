@@ -3,4 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://dummy.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'dummy';
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    storage: typeof window !== 'undefined' ? window.sessionStorage : undefined,
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+  },
+});
