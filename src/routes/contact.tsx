@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Clock, Loader2 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { createBooking } from "@/lib/api";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -61,13 +63,65 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [waLink, setWaLink] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", date: "", pax: "", message: "" });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `Hi Bengal Taxi, I'd like to book a cab.%0A%0AName: ${form.name}%0APhone: ${form.phone}%0AFrom: ${form.from}%0ATo: ${form.to}%0ADate: ${form.date}%0APax: ${form.pax}%0ADetails: ${form.message}`;
-    window.open(`https://wa.me/919933367890?text=${text}`, "_blank");
-    setSent(true);
+    if (submitting) return;
+    setSubmitting(true);
+
+    const bookingPayload = {
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      from_location: form.from.trim(),
+      to_location: form.to.trim(),
+      pickup_date: form.date,
+      pax: form.pax.trim(),
+      details: form.message.trim(),
+      status: "pending",
+    };
+
+    // Format WhatsApp message
+    const lines = [
+      "Hi Bengal Taxi, I'd like to book a cab.",
+      "",
+      `Name: ${bookingPayload.name}`,
+      `Phone: ${bookingPayload.phone}`,
+      `From: ${bookingPayload.from_location}`,
+      `To: ${bookingPayload.to_location}`,
+      `Date: ${bookingPayload.pickup_date || "Not specified"}`,
+      `Pax: ${bookingPayload.pax || "1"}`,
+    ];
+    if (bookingPayload.details) {
+      lines.push(`Details: ${bookingPayload.details}`);
+    }
+    const text = encodeURIComponent(lines.join("\n"));
+    const url = `https://wa.me/919933367890?text=${text}`;
+    setWaLink(url);
+
+    // 1. Save to Supabase database
+    try {
+      const { error } = await createBooking(bookingPayload);
+      if (error) {
+        console.warn("Could not save to Supabase bookings table:", error.message);
+        toast.info("Opening WhatsApp to complete your booking request...");
+      } else {
+        toast.success("Booking request saved! Redirecting to WhatsApp...");
+      }
+    } catch (err) {
+      console.error("Booking save error:", err);
+    } finally {
+      setSubmitting(false);
+      setSent(true);
+
+      // 2. Redirect to WhatsApp
+      const newTab = window.open(url, "_blank");
+      if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
+        window.location.href = url;
+      }
+    }
   };
 
   return (
@@ -179,10 +233,41 @@ function ContactPage() {
                   <p className="mt-1.5 text-xs font-medium text-muted-foreground">{form.message.length}/100</p>
                 </div>
               </div>
-              <button type="submit" className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 font-bold text-brand-foreground transition-transform hover:scale-105 active:scale-95 sm:w-auto">
-                <Send className="h-4 w-4" /> Send via WhatsApp
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 font-bold text-brand-foreground transition-transform hover:scale-105 active:scale-95 disabled:opacity-75 disabled:hover:scale-100 sm:w-auto cursor-pointer"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> Sending Request…
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" /> Send Request
+                  </>
+                )}
               </button>
-              {sent && <p className="mt-4 text-sm text-muted-foreground">Opening WhatsApp… if nothing happens, call us at {site.phone}.</p>}
+              {sent && (
+                <div className="mt-5 p-4 rounded-2xl border border-brand/20 bg-brand/5">
+                  <p className="text-sm font-semibold text-foreground">
+                    Booking Request Submitted!
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Opening WhatsApp… If nothing happens, you can click below or call us at {site.phone}.
+                  </p>
+                  {waLink && (
+                    <a
+                      href={waLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-bold text-brand-foreground hover:brightness-105"
+                    >
+                      <WhatsAppIcon className="h-3.5 w-3.5" /> Continue to WhatsApp Chat
+                    </a>
+                  )}
+                </div>
+              )}
             </form>
           </ScrollReveal>
         </div>

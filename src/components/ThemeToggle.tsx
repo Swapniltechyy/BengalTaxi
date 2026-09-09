@@ -1,17 +1,61 @@
-import { Moon, Sun } from "lucide-react";
+import { useId } from "react";
 import { useTheme } from "./ThemeProvider";
 
-export function ThemeToggle() {
+export function ThemeToggle({ className = "" }: { className?: string }) {
   const { theme, setTheme } = useTheme();
+  const clipId = useId();
+
+  const toggle = () => {
+    if (theme === "system") {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(isDark ? "light" : "dark");
+    } else {
+      setTheme(theme === "light" ? "dark" : "light");
+    }
+  };
 
   return (
     <button
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+      onClick={toggle}
+      type="button"
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer ${className}`}
       aria-label="Toggle theme"
+      title="Toggle theme"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="transition-transform duration-200 active:scale-90"
+        aria-hidden="true"
+      >
+        <defs>
+          <clipPath id={clipId}>
+            <path d="M 12 3 A 9 9 0 0 1 12 21 Z" />
+          </clipPath>
+        </defs>
+
+        {/* Outer circular boundary */}
+        <circle cx="12" cy="12" r="9" />
+
+        {/* Center vertical dividing line */}
+        <line x1="12" y1="3" x2="12" y2="21" />
+
+        {/* Right-half diagonal hatch stripes (45° angle) */}
+        <g clipPath={`url(#${clipId})`}>
+          <line x1="-5" y1="24" x2="24" y2="-5" />
+          <line x1="-1" y1="24" x2="24" y2="-1" />
+          <line x1="3" y1="24" x2="24" y2="3" />
+          <line x1="7" y1="24" x2="24" y2="7" />
+          <line x1="11" y1="24" x2="24" y2="11" />
+        </g>
+      </svg>
     </button>
   );
 }
+

@@ -75,3 +75,73 @@ export async function getAboutContent() {
   // Convert array to object
   return data.reduce((acc, row) => ({ ...acc, [row.section]: row.content }), {});
 }
+
+export interface BookingInput {
+  name: string;
+  phone: string;
+  from_location: string;
+  to_location: string;
+  pickup_date?: string;
+  pax?: string;
+  details?: string;
+  status?: string;
+}
+
+export interface Booking extends BookingInput {
+  id: string;
+  status: string;
+  created_at: string;
+}
+
+export async function createBooking(booking: BookingInput) {
+  const { data, error } = await supabase
+    .from('bookings')
+    .insert([booking])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating booking request:', error);
+  }
+  return { data, error };
+}
+
+export async function getBookings() {
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error || !data) {
+    console.error('Error fetching bookings:', error);
+    return [];
+  }
+  return data as Booking[];
+}
+
+export async function updateBookingStatus(id: string, status: string) {
+  const { data, error } = await supabase
+    .from('bookings')
+    .update({ status })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating booking status:', error);
+  }
+  return { data, error };
+}
+
+export async function deleteBooking(id: string) {
+  const { error } = await supabase
+    .from('bookings')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error deleting booking:', error);
+  }
+  return { error };
+}
+

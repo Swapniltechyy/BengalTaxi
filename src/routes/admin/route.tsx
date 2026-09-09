@@ -3,12 +3,13 @@ import { isAuthenticated, signOut } from '@/lib/auth';
 import {
   ShieldCheck, LogOut, LayoutDashboard, Map, Car, Settings,
   Star, Info, Package, ChevronRight, ExternalLink, Menu, X,
-  PanelLeftClose, PanelLeftOpen, Moon, Sun
+  PanelLeftClose, PanelLeftOpen, CalendarCheck
 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/components/ThemeProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export const Route = createFileRoute('/admin')({
   component: AdminLayout,
@@ -16,6 +17,7 @@ export const Route = createFileRoute('/admin')({
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
+  { to: '/admin/bookings', icon: CalendarCheck, label: 'Bookings' },
   { to: '/admin/site-settings', icon: Settings, label: 'Site Settings' },
   { to: '/admin/routes', icon: Map, label: 'Popular Routes' },
   { to: '/admin/vehicles', icon: Car, label: 'Fleet / Vehicles' },
@@ -226,14 +228,7 @@ function AdminLayout() {
 
           <div className="flex items-center gap-3">
             {/* Theme toggle in top bar (for quick access) */}
-            <button
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-border text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors"
-              title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-            >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            </button>
+            <ThemeToggle />
 
             <div className="flex items-center gap-2.5 rounded-xl border border-border px-3 py-1.5 transition-colors hover:bg-muted/30">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand/70 text-brand-foreground text-xs font-bold shadow-sm">

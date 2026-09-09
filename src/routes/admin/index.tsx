@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { getRoutes, getVehicles, getServices, getReviews } from '@/lib/api';
+import { getRoutes, getVehicles, getServices, getReviews, getBookings } from '@/lib/api';
 import {
   Map, Car, Package, Star, Loader2, ArrowUpRight,
   TrendingUp, Clock, CheckCircle2, Eye, Plus,
-  Settings, ExternalLink, Sparkles
+  Settings, ExternalLink, Sparkles, CalendarCheck, Phone
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -41,21 +41,29 @@ function getGreeting() {
 
 /* ── quick-action cards ────────────────────────────── */
 const quickActions = [
+  { label: 'View Bookings', icon: CalendarCheck, to: '/admin/bookings', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/40' },
   { label: 'Add Route', icon: Map, to: '/admin/routes', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/40' },
   { label: 'Add Vehicle', icon: Car, to: '/admin/vehicles', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
-  { label: 'Add Service', icon: Package, to: '/admin/services', color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-50 dark:bg-violet-950/40' },
-  { label: 'Site Settings', icon: Settings, to: '/admin/site-settings', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/40' },
+  { label: 'Site Settings', icon: Settings, to: '/admin/site-settings', color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-50 dark:bg-violet-950/40' },
 ];
 
 function AdminDashboard() {
+  const { data: bookings = [], isLoading: lb } = useQuery({ queryKey: ['bookings'], queryFn: getBookings });
   const { data: routes, isLoading: lr } = useQuery({ queryKey: ['routes'], queryFn: getRoutes });
   const { data: vehicles, isLoading: lv } = useQuery({ queryKey: ['vehicles'], queryFn: getVehicles });
   const { data: services, isLoading: ls } = useQuery({ queryKey: ['services'], queryFn: getServices });
   const { data: reviews, isLoading: lre } = useQuery({ queryKey: ['reviews'], queryFn: getReviews });
 
-  const isLoading = lr || lv || ls || lre;
+  const isLoading = lb || lr || lv || ls || lre;
 
   const stats = [
+    {
+      label: 'Booking Requests', value: bookings?.length || 0, icon: CalendarCheck,
+      to: '/admin/bookings' as const,
+      accent: 'from-amber-500/20 to-amber-500/5 dark:from-amber-500/30 dark:to-amber-500/5',
+      iconColor: 'text-amber-600 dark:text-amber-400',
+      iconBg: 'bg-amber-100 dark:bg-amber-900/50',
+    },
     {
       label: 'Popular Routes', value: routes?.length || 0, icon: Map,
       to: '/admin/routes' as const,
@@ -71,21 +79,15 @@ function AdminDashboard() {
       iconBg: 'bg-emerald-100 dark:bg-emerald-900/50',
     },
     {
-      label: 'Services', value: services?.length || 0, icon: Package,
-      to: '/admin/services' as const,
+      label: 'Customer Reviews', value: reviews?.length || 0, icon: Star,
+      to: '/admin/reviews' as const,
       accent: 'from-violet-500/20 to-violet-500/5 dark:from-violet-500/30 dark:to-violet-500/5',
       iconColor: 'text-violet-600 dark:text-violet-400',
       iconBg: 'bg-violet-100 dark:bg-violet-900/50',
     },
-    {
-      label: 'Reviews', value: reviews?.length || 0, icon: Star,
-      to: '/admin/reviews' as const,
-      accent: 'from-amber-500/20 to-amber-500/5 dark:from-amber-500/30 dark:to-amber-500/5',
-      iconColor: 'text-amber-600 dark:text-amber-400',
-      iconBg: 'bg-amber-100 dark:bg-amber-900/50',
-    },
   ];
 
+  const pendingBookings = bookings?.filter((b: any) => b.status === 'pending') || [];
   const activeReviews = reviews?.filter((r: any) => r.is_active) || [];
   const hiddenReviews = reviews?.filter((r: any) => !r.is_active) || [];
   const activeVehicles = vehicles?.filter((v: any) => v.is_active) || [];
@@ -186,6 +188,7 @@ function AdminDashboard() {
             <div className="space-y-4">
               {/* Status rows */}
               {[
+                { label: 'Pending bookings to review', value: pendingBookings.length, total: bookings?.length || 0, icon: CalendarCheck, color: 'text-amber-500' },
                 { label: 'Active vehicles in fleet', value: activeVehicles.length, total: vehicles?.length || 0, icon: Car, color: 'text-emerald-500' },
                 { label: 'Published reviews', value: activeReviews.length, total: reviews?.length || 0, icon: Star, color: 'text-amber-500' },
                 { label: 'Hidden reviews', value: hiddenReviews.length, total: reviews?.length || 0, icon: Eye, color: 'text-red-400' },
@@ -213,6 +216,76 @@ function AdminDashboard() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* ── Recent Bookings Section ───────────────────── */}
+      <div className="rounded-2xl border border-border bg-card">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <div className="flex items-center gap-2">
+            <CalendarCheck className="h-4 w-4 text-amber-500" />
+            <h3 className="font-display font-bold text-foreground">Recent Booking Requests</h3>
+            {pendingBookings.length > 0 && (
+              <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-bold text-amber-500">
+                {pendingBookings.length} pending
+              </span>
+            )}
+          </div>
+          <Link to="/admin/bookings" className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
+            View all bookings <ExternalLink className="h-3 w-3" />
+          </Link>
+        </div>
+        {isLoading ? (
+          <div className="flex h-36 items-center justify-center">
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          </div>
+        ) : bookings && bookings.length > 0 ? (
+          <div className="divide-y divide-border">
+            {bookings.slice(0, 5).map((booking: any) => (
+              <div key={booking.id} className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-3.5 gap-3 transition-colors hover:bg-muted/20">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 font-bold text-xs">
+                    {booking.name?.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-semibold text-foreground">{booking.name}</p>
+                      <span className="text-xs text-muted-foreground">({booking.phone})</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {booking.from_location} → {booking.to_location} {booking.pickup_date ? `• ${booking.pickup_date}` : ''}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 self-end sm:self-auto">
+                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wider ${
+                    booking.status === 'confirmed'
+                      ? 'bg-blue-500/15 text-blue-500'
+                      : booking.status === 'completed'
+                      ? 'bg-emerald-500/15 text-emerald-500'
+                      : booking.status === 'cancelled'
+                      ? 'bg-rose-500/15 text-rose-500'
+                      : 'bg-amber-500/15 text-amber-500'
+                  }`}>
+                    {booking.status || 'pending'}
+                  </span>
+
+                  <Link
+                    to="/admin/bookings"
+                    className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                  >
+                    Manage
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex h-36 flex-col items-center justify-center gap-1.5 text-muted-foreground">
+            <CalendarCheck className="h-7 w-7 opacity-30" />
+            <p className="text-sm">No bookings received yet</p>
+          </div>
+        )}
       </div>
 
       {/* ── Recent Content Tables ────────────────────── */}
