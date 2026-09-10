@@ -70,9 +70,10 @@ function ContactPage() {
     from: string;
     to: string;
     date: string;
+    time: string;
     pax: string;
   } | null>(null);
-  const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", date: "", pax: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", date: "", time: "", pax: "", message: "" });
   const confirmationRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to confirmation on mobile and desktop
@@ -95,6 +96,7 @@ function ContactPage() {
       from_location: form.from.trim(),
       to_location: form.to.trim(),
       pickup_date: form.date,
+      pickup_time: form.time,
       pax: form.pax.trim(),
       details: form.message.trim(),
       status: "pending",
@@ -112,6 +114,7 @@ function ContactPage() {
           from: bookingPayload.from_location,
           to: bookingPayload.to_location,
           date: bookingPayload.pickup_date,
+          time: bookingPayload.pickup_time,
           pax: bookingPayload.pax,
         });
         setSent(true);
@@ -211,6 +214,12 @@ function ContactPage() {
                       <span className="font-medium text-foreground">{submittedBooking.date}</span>
                     </div>
                   )}
+                  {submittedBooking.time && (
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-muted-foreground uppercase font-bold tracking-wider">Pickup Time</span>
+                      <span className="font-medium text-foreground">{submittedBooking.time}</span>
+                    </div>
+                  )}
                   {submittedBooking.pax && (
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-muted-foreground uppercase font-bold tracking-wider">Guests / Pax</span>
@@ -230,7 +239,7 @@ function ContactPage() {
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                   <button
                     onClick={() => {
-                      setForm({ name: "", phone: "", from: "", to: "", date: "", pax: "", message: "" });
+                      setForm({ name: "", phone: "", from: "", to: "", date: "", time: "", pax: "", message: "" });
                       setSubmittedBooking(null);
                       setSent(false);
                     }}
@@ -287,6 +296,10 @@ function ContactPage() {
                   <div className="sm:col-span-1">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Date</label>
                     <input type="date" required min={new Date().toISOString().split('T')[0]} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={`mt-2 w-full min-h-[46px] rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand uppercase dark:[color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-50 ${!form.date ? 'text-muted-foreground' : 'text-foreground'}`} />
+                  </div>
+                  <div className="sm:col-span-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pickup Time</label>
+                    <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} className={`mt-2 w-full min-h-[46px] rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-brand dark:[color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-50 ${!form.time ? 'text-muted-foreground' : 'text-foreground'}`} />
                   </div>
                   <div className="sm:col-span-1">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pax</label>

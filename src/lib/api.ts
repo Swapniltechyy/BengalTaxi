@@ -82,6 +82,7 @@ export interface BookingInput {
   from_location: string;
   to_location: string;
   pickup_date?: string;
+  pickup_time?: string;
   pax?: string;
   details?: string;
   status?: string;
@@ -93,69 +94,24 @@ export interface Booking extends BookingInput {
   created_at: string;
 }
 
-// Clean up any legacy localStorage/sessionStorage keys
-if (typeof window !== 'undefined') {
-  try {
-    localStorage.removeItem('bt_local_bookings');
-    sessionStorage.removeItem('bt_local_bookings');
-  } catch {}
-}
-
-// Helpers to support both 'bookings' and 'bt_local_bookings' view/alias in Supabase
-async function insertBookingToSupabase(booking: BookingInput) {
-  let res = await supabase.from('bookings').insert([booking]).select().single();
-  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
-    res = await supabase.from('bt_local_bookings').insert([booking]).select().single();
-  }
-  return res;
-}
-
-async function fetchBookingsFromSupabase() {
-  let res = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
-  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
-    res = await supabase.from('bt_local_bookings').select('*').order('created_at', { ascending: false });
-  }
-  return res;
-}
-
-async function updateBookingInSupabase(id: string, status: string) {
-  let res = await supabase.from('bookings').update({ status }).eq('id', id).select().single();
-  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
-    res = await supabase.from('bt_local_bookings').update({ status }).eq('id', id).select().single();
-  }
-  return res;
-}
-
-async function deleteBookingFromSupabase(id: string) {
-  let res = await supabase.from('bookings').delete().eq('id', id);
-  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
-    res = await supabase.from('bt_local_bookings').delete().eq('id', id);
-  }
-  return res;
-}
-
 export async function createBooking(booking: BookingInput): Promise<{
   data: Booking | null;
   error: any;
 }> {
-  const { data, error } = await insertBookingToSupabase(booking);
-
+  const { data, error } = await supabase.from('bookings').insert([booking]).select().single();
   if (error) {
-    console.error('Error creating booking in Supabase:', error);
+    console.error('Error creating booking:', error);
     return { data: null, error };
   }
-
   return { data: data as Booking, error: null };
 }
 
 export async function getBookings(): Promise<Booking[]> {
-  const { data, error } = await fetchBookingsFromSupabase();
-
+  const { data, error } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
   if (error || !data) {
-    console.error('Error fetching bookings from Supabase:', error);
+    console.error('Error fetching bookings:', error);
     return [];
   }
-
   return data as Booking[];
 }
 
@@ -163,25 +119,19 @@ export async function updateBookingStatus(id: string, status: string): Promise<{
   data: Booking | null;
   error: any;
 }> {
-  const { data, error } = await updateBookingInSupabase(id, status);
-
+  const { data, error } = await supabase.from('bookings').update({ status }).eq('id', id).select().single();
   if (error) {
-    console.error('Error updating booking status in Supabase:', error);
+    console.error('Error updating booking status:', error);
     return { data: null, error };
   }
-
   return { data: data as Booking, error: null };
 }
 
 export async function deleteBooking(id: string): Promise<{ error: any }> {
-  const { error } = await deleteBookingFromSupabase(id);
-
+  const { error } = await supabase.from('bookings').delete().eq('id', id);
   if (error) {
-    console.error('Error deleting booking from Supabase:', error);
+    console.error('Error deleting booking:', error);
     return { error };
   }
-
   return { error: null };
 }
-
-
