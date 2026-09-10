@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Phone, Mail, MapPin, Send, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { PageHero } from "@/components/PageHero";
@@ -73,6 +73,16 @@ function ContactPage() {
     pax: string;
   } | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", from: "", to: "", date: "", pax: "", message: "" });
+  const confirmationRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to confirmation on mobile and desktop
+  useEffect(() => {
+    if (sent && confirmationRef.current) {
+      setTimeout(() => {
+        confirmationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+    }
+  }, [sent]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,9 +183,12 @@ function ContactPage() {
           </ScrollReveal>
 
           {/* Form / Confirmation */}
-          <ScrollReveal delay={0.2} direction="left" className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2">
             {sent && submittedBooking ? (
-              <div className="rounded-[2rem] border border-border bg-card p-8 md:p-12 text-center shadow-xs">
+              <div
+                ref={confirmationRef}
+                className="rounded-[2rem] border border-border bg-card p-6 sm:p-8 md:p-12 text-center shadow-xs scroll-mt-24"
+              >
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
@@ -187,7 +200,7 @@ function ContactPage() {
                 </p>
 
                 {/* Booking Summary Box */}
-                <div className="mt-6 rounded-2xl border border-border/70 bg-muted/30 p-5 text-left text-sm space-y-2.5 max-w-md mx-auto">
+                <div className="mt-6 rounded-2xl border border-border/70 bg-muted/30 p-4 sm:p-5 text-left text-sm space-y-2.5 max-w-md mx-auto">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-muted-foreground uppercase font-bold tracking-wider">Route</span>
                     <span className="font-semibold text-foreground">{submittedBooking.from} → {submittedBooking.to}</span>
@@ -234,7 +247,9 @@ function ContactPage() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="rounded-[2rem] border border-border bg-card p-8 md:p-12">
+              <ScrollReveal delay={0.2} direction="left">
+                <form onSubmit={onSubmit} className="rounded-[2rem] border border-border bg-card p-6 sm:p-8 md:p-12">
+
                 <h2 className="font-display text-3xl font-extrabold text-foreground">Send a Booking Request</h2>
                 <p className="mt-2 text-muted-foreground">Fill out the form and our team will get back to you shortly to confirm your booking.</p>
                 <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -299,12 +314,13 @@ function ContactPage() {
                   )}
                 </button>
               </form>
-            )}
-          </ScrollReveal>
-
+            </ScrollReveal>
+          )}
         </div>
+      </div>
 
-        {/* Map */}
+      {/* Map */}
+
         <ScrollReveal delay={0.4} direction="up">
           <div className="mt-24 overflow-hidden rounded-[2rem] border border-border bg-muted">
             <iframe
