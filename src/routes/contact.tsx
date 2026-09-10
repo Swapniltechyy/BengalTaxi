@@ -103,9 +103,9 @@ function ContactPage() {
     try {
       const { error } = await createBooking(bookingPayload);
       if (error) {
-        toast.error("Could not save booking. Please call us directly.");
+        toast.error(error.message || "Could not save booking to database. Please call us directly.");
       } else {
-        toast.success("Booking request submitted successfully!");
+        toast.success("Booking request saved successfully!");
         setSubmittedBooking({
           name: bookingPayload.name,
           phone: bookingPayload.phone,

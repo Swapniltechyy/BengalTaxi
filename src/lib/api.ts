@@ -108,111 +108,152 @@ function getLocalBookings(): Booking[] {
 function saveLocalBookings(bookings: Booking[]) {
   if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem(LOCAL_BOOKINGS_KEY, JSON.stringify(bookings));
+    if (bookings.length === 0) {
+      localStorage.removeItem(LOCAL_BOOKINGS_KEY);
+    } else {
+      localStorage.setItem(LOCAL_BOOKINGS_KEY, JSON.stringify(bookings));
+    }
   } catch {
     // ignore
   }
 }
 
+// Helpers to support both 'bookings' and 'bt_local_bookings' view/alias
+async function insertBookingToSupabase(booking: BookingInput) {
+  let res = await supabase.from('bookings').insert([booking]).select().single();
+  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
+    res = await supabase.from('bt_local_bookings').insert([booking]).select().single();
+  }
+  return res;
+}
+
+async function fetchBookingsFromSupabase() {
+  let res = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
+  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
+    res = await supabase.from('bt_local_bookings').select('*').order('created_at', { ascending: false });
+  }
+  return res;
+}
+
+async function updateBookingInSupabase(id: string, status: string) {
+  let res = await supabase.from('bookings').update({ status }).eq('id', id).select().single();
+  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
+    res = await supabase.from('bt_local_bookings').update({ status }).eq('id', id).select().single();
+  }
+  return res;
+}
+
+async function deleteBookingFromSupabase(id: string) {
+  let res = await supabase.from('bookings').delete().eq('id', id);
+  if (res.error && (res.error.code === 'PGRST205' || res.error.message?.includes('schema cache'))) {
+    res = await supabase.from('bt_local_bookings').delete().eq('id', id);
+  }
+  return res;
+}
+
 export async function createBooking(booking: BookingInput) {
-  const newBooking: Booking = {
-    ...booking,
-    id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `b_${Date.now()}`,
-    status: booking.status || 'pending',
-    created_at: new Date().toISOString(),
-  };
+  // 1. Insert directly into Supabase
+  const { data, error } = await insertBookingToSupabase(booking);
 
-  // 1. Always store locally first so it is never lost
-  const localList = getLocalBookings();
-  saveLocalBookings([newBooking, ...localList.filter((b) => b.id !== newBooking.id)]);
-
-  // 2. Insert into Supabase
-  try {
-    const { data, error } = await supabase
-      .from('bookings')
-      .insert([booking])
-      .select()
-      .single();
-
-    if (!error && data) {
-      // Update local storage with Supabase record
-      const updatedList = getLocalBookings().map((b) => (b.id === newBooking.id ? (data as Booking) : b));
-      saveLocalBookings(updatedList);
-      return { data: data as Booking, error: null };
-    }
-    if (error) {
-      console.warn('Supabase booking insert (using local fallback):', error.message);
-    }
-  } catch (err: any) {
-    console.warn('Supabase insert exception:', err);
+  if (error) {
+    console.error('Supabase booking insert error:', error);
+    const friendlyError = error.code === 'PGRST205' || error.message?.includes('schema cache')
+      ? new Error("Supabase table 'bookings' not found. Please run the SQL setup script in your Supabase SQL Editor.")
+      : new Error(error.message || 'Failed to save booking to Supabase');
+    return { data: null, error: friendlyError };
   }
 
-  return { data: newBooking, error: null };
-}
-
-export async function getBookings(): Promise<Booking[]> {
-  const localBookings = getLocalBookings();
-
+  // 2. Once saved to Supabase, clean up any previous local storage record for this contact
   try {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!error && data) {
-      // Merge Supabase bookings with any local bookings
-      const supabaseIds = new Set(data.map((b: any) => b.id));
-      const unsynced = localBookings.filter((b) => !supabaseIds.has(b.id));
-
-      // Return unified list
-      return [...unsynced, ...data] as Booking[];
-    }
-  } catch (err) {
-    console.warn('Could not fetch bookings from Supabase:', err);
-  }
-
-  return localBookings;
-}
-
-export async function updateBookingStatus(id: string, status: string) {
-  const localList = getLocalBookings();
-  const updatedLocal = localList.map((b) => (b.id === id ? { ...b, status } : b));
-  saveLocalBookings(updatedLocal);
-
-  try {
-    const { data, error } = await supabase
-      .from('bookings')
-      .update({ status })
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (!error && data) {
-      return { data, error: null };
+    const local = getLocalBookings();
+    if (local.length > 0) {
+      const remaining = local.filter((b) => b.phone !== booking.phone || b.name !== booking.name);
+      saveLocalBookings(remaining);
     }
   } catch (e) {
     // ignore
   }
 
-  return { data: { id, status }, error: null };
+  return { data: data as Booking, error: null };
+}
+
+// Background migration for any legacy local bookings to Supabase
+let isSyncingLocal = false;
+async function syncPendingLocalBookings(currentSupabase: Booking[]) {
+  if (isSyncingLocal || typeof window === 'undefined') return;
+  const localList = getLocalBookings();
+  if (!localList || localList.length === 0) return;
+
+  isSyncingLocal = true;
+  try {
+    const existingKeys = new Set(
+      currentSupabase.map((b) => `${b.name}_${b.phone}_${b.pickup_date || ''}`)
+    );
+    const toSync = localList.filter(
+      (b) => !existingKeys.has(`${b.name}_${b.phone}_${b.pickup_date || ''}`)
+    );
+
+    for (const b of toSync) {
+      const { data, error } = await insertBookingToSupabase({
+        name: b.name,
+        phone: b.phone,
+        from_location: b.from_location,
+        to_location: b.to_location,
+        pickup_date: b.pickup_date,
+        pax: b.pax,
+        details: b.details,
+        status: b.status || 'pending',
+      });
+      if (!error && data) {
+        const remaining = getLocalBookings().filter((item) => item.id !== b.id);
+        saveLocalBookings(remaining);
+      }
+    }
+  } catch (err) {
+    console.warn('Background local booking sync error:', err);
+  } finally {
+    isSyncingLocal = false;
+  }
+}
+
+export async function getBookings(): Promise<Booking[]> {
+  const { data, error } = await fetchBookingsFromSupabase();
+
+  if (error) {
+    console.warn('Could not fetch bookings from Supabase:', error.message);
+    return getLocalBookings();
+  }
+
+  const supabaseBookings = (data || []) as Booking[];
+
+  // Migrate any previous local bookings in the background
+  syncPendingLocalBookings(supabaseBookings);
+
+  return supabaseBookings;
+}
+
+export async function updateBookingStatus(id: string, status: string) {
+  const { data, error } = await updateBookingInSupabase(id, status);
+  if (error) {
+    console.error('Error updating booking status:', error);
+    return { data: null, error };
+  }
+  return { data: data as Booking, error: null };
 }
 
 export async function deleteBooking(id: string) {
-  const localList = getLocalBookings();
-  const filtered = localList.filter((b) => b.id !== id);
-  saveLocalBookings(filtered);
+  const { error } = await deleteBookingFromSupabase(id);
+  if (error) {
+    console.error('Error deleting booking:', error);
+    return { error };
+  }
 
+  // Also remove from local if present
   try {
-    const { error } = await supabase
-      .from('bookings')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      console.warn('Delete from Supabase warning:', error.message);
-    }
-  } catch (err) {
-    console.warn('Delete exception:', err);
+    const local = getLocalBookings().filter((b) => b.id !== id);
+    saveLocalBookings(local);
+  } catch {
+    // ignore
   }
 
   return { error: null };
