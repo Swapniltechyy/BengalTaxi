@@ -101,15 +101,11 @@ function ContactPage() {
     };
 
     try {
-      const result = await createBooking(bookingPayload);
-      if (result.error) {
-        toast.error(result.error.message || "Could not save booking. Please call us directly.");
+      const { data, error } = await createBooking(bookingPayload);
+      if (error) {
+        toast.error(error.message || "Failed to save booking to Supabase.");
       } else {
-        if (result.savedTo === 'supabase') {
-          toast.success("Booking request saved to database successfully!");
-        } else {
-          toast.success("Booking request submitted successfully!");
-        }
+        toast.success("Booking request saved to Supabase successfully!");
         setSubmittedBooking({
           name: bookingPayload.name,
           phone: bookingPayload.phone,
@@ -120,9 +116,9 @@ function ContactPage() {
         });
         setSent(true);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Booking submission error:", err);
-      toast.error("Something went wrong. Please call us directly.");
+      toast.error(err?.message || "Something went wrong. Please call us directly.");
     } finally {
       setSubmitting(false);
     }
