@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { Phone, Mail, MapPin, Send, Clock, Loader2, CheckCircle2 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -9,6 +9,9 @@ import { createBooking } from "@/lib/api";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
+  beforeLoad: () => {
+    throw redirect({ to: "/", hash: "contact" });
+  },
   head: () => ({
     meta: [
       { title: "Contact Bengal Taxi — Call, WhatsApp or Email" },

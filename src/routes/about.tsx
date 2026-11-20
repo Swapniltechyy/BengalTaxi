@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getAboutContent } from "@/lib/api";
 import { Target, Heart, ShieldCheck, MapPin, Award, Smile } from "lucide-react";
@@ -8,6 +8,9 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 export const Route = createFileRoute("/about")({
+  beforeLoad: () => {
+    throw redirect({ to: "/", hash: "about" });
+  },
   head: () => ({
     meta: [
       { title: "About Bengal Taxi — Siliguri's Trusted Cab Service" },
@@ -38,7 +41,7 @@ function AboutPage() {
   const { data: dbAbout } = useQuery({ queryKey: ['aboutContent'], queryFn: getAboutContent });
 
   // Use DB data, fallback to hardcoded text
-  const heroTitle = dbAbout?.hero_title || "Born in Siliguri. Trusted Across the Hills.";
+  const heroTitle = dbAbout?.hero_title || "Born In Siliguri, Trusted Across the Hills.";
   const heroSubtitle = dbAbout?.hero_subtitle || "Bengal Taxi is a locally-run cab service providing safe, comfortable and affordable travel across North Bengal, Darjeeling, Sikkim and the Dooars.";
   
   const storyP1 = dbAbout?.story_p1 || "Bengal Taxi is a trusted taxi service provider based in Siliguri, serving North Bengal, Darjeeling, Sikkim and nearby destinations with safe and reliable transportation services. What started as a single sedan running airport pickups from Bagdogra has grown into a dependable fleet of sedans and SUVs covering every popular hill route.";
@@ -58,7 +61,7 @@ function AboutPage() {
         <div className="grid gap-16 lg:grid-cols-[1fr_0.8fr]">
           <ScrollReveal>
             <article className="space-y-6 text-lg leading-relaxed text-muted-foreground">
-              <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl">Our Story</h2>
+              <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl text-center">Our Story</h2>
               <p>{storyP1}</p>
               <p>{storyP2}</p>
               <p>{storyP3}</p>

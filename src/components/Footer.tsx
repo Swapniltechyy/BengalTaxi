@@ -22,27 +22,90 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Explore</h4>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/" className="hover:text-foreground">Home</Link></li>
             <li>
               <button
                 type="button"
                 className="hover:text-foreground cursor-pointer"
                 onClick={() => {
-                  if (window.location.pathname === "/") {
-                    const el = document.getElementById("popular-routes");
-                    if (el) { el.scrollIntoView({ behavior: "smooth" }); return; }
-                  }
-                  window.location.href = "/#popular-routes";
+                  const el = document.getElementById("home");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#home"); }
+                }}
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("vehicle");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#vehicle"); }
+                }}
+              >
+                Vehicle
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("destinations");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#destinations"); }
                 }}
               >
                 Destinations
               </button>
             </li>
-            <li><Link to="/services" className="hover:text-foreground">Services</Link></li>
-            <li><Link to="/fleet" className="hover:text-foreground">Vehicle</Link></li>
-            <li><Link to="/about" className="hover:text-foreground">About</Link></li>
-            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
-            <li><Link to="/faq" className="hover:text-foreground">FAQ</Link></li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("services");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#services"); }
+                }}
+              >
+                Services
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("about");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#about"); }
+                }}
+              >
+                About
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("contact");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#contact"); }
+                }}
+              >
+                Contact
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="hover:text-foreground cursor-pointer"
+                onClick={() => {
+                  const el = document.getElementById("faq");
+                  if (el) { el.scrollIntoView({ behavior: "smooth" }); window.history.pushState(null, "", "#faq"); }
+                }}
+              >
+                FAQ
+              </button>
+            </li>
           </ul>
         </div>
         <div>
@@ -64,7 +127,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border">
-        <div className="container-x flex flex-col gap-2 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-x flex flex-col items-center text-center gap-2 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} Bengal Taxi. All rights reserved.</p>
           <p>
             Design & Developed by{" "}

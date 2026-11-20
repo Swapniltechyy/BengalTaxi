@@ -1,149 +1,139 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, Phone, X } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
 import { site } from "@/lib/site";
 import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
-  { to: "/", label: "Home", hash: undefined },
-  { to: "/", label: "Destinations", hash: "popular-routes" },
-  { to: "/services", label: "Services", hash: undefined },
-  { to: "/fleet", label: "Vehicle", hash: undefined },
-  { to: "/about", label: "About", hash: undefined },
-  { to: "/contact", label: "Contact", hash: undefined },
+  { id: "home", label: "Home" },
+  { id: "vehicle", label: "Vehicle" },
+  { id: "destinations", label: "Destinations" },
+  { id: "services", label: "Services" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const navigate = useNavigate();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [destinationsInView, setDestinationsInView] = useState(false);
 
-  // Track whether the #popular-routes section is visible on the homepage
+  // Scroll listener to update active section in navigation
   useEffect(() => {
-    if (pathname !== "/") {
-      setDestinationsInView(false);
-      return;
-    }
-
-    let observer: IntersectionObserver | null = null;
-    let retryTimer: ReturnType<typeof setTimeout>;
-
-    const setup = () => {
-      const el = document.getElementById("popular-routes");
-      if (!el) {
-        // Element not yet in DOM — retry after route component renders
-        retryTimer = setTimeout(setup, 200);
-        return;
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 140;
+      const sectionIds = ["home", "vehicle", "destinations", "services", "about", "contact"];
+      
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(id);
+            break;
+          }
+        }
       }
-
-      observer = new IntersectionObserver(
-        ([entry]) => setDestinationsInView(entry.isIntersecting),
-        { threshold: 0.05, rootMargin: "-64px 0px 0px 0px" },
-      );
-      observer.observe(el);
     };
 
-    setup();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return () => {
-      clearTimeout(retryTimer);
-      observer?.disconnect();
-    };
-  }, [pathname]);
-
-  const handleHashNav = useCallback(
-    (hash: string) => {
+  const handleNavClick = useCallback(
+    (id: string) => {
       setOpen(false);
-      // Immediately highlight Destinations so Home doesn't flash during scroll
-      setDestinationsInView(true);
+      setActiveSection(id);
       if (window.location.pathname === "/") {
-        const el = document.getElementById(hash);
+        const el = document.getElementById(id);
         if (el) {
           el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${id}`);
           return;
         }
       }
       navigate({ to: "/" }).then(() => {
         setTimeout(() => {
-          const el = document.getElementById(hash);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+            window.history.pushState(null, "", `#${id}`);
+          }
+        }, 150);
       });
     },
     [navigate],
   );
 
-  const isActive = (l: (typeof links)[number]) => {
-    // Destinations: active when on homepage and section is in view
-    if (l.hash === "popular-routes") return pathname === "/" && destinationsInView;
-    // Home: active when on homepage and destinations section is NOT in view
-    if (l.to === "/" && !l.hash) return pathname === "/" && !destinationsInView;
-    // Other pages: match by pathname
-    return pathname === l.to;
-  };
-
   const activeClass = "text-foreground bg-accent";
   const baseDesktop =
-    "rounded-md px-3 py-2 text-sm font-medium text-foreground/75 hover:text-foreground hover:bg-accent transition-colors";
-  const baseMobile = "rounded-md px-3 py-3 text-base font-medium hover:bg-accent";
+    "rounded-md px-3 py-2 text-sm font-medium text-foreground/75 hover:text-foreground hover:bg-accent transition-colors cursor-pointer";
+  const baseMobile = "rounded-md px-3 py-3 text-base font-medium hover:bg-accent text-left cursor-pointer";
 
   return (
     <header className="fixed top-0 left-0 w-full z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
+        {/* Logo */}
         <Link
           to="/"
           className="flex items-center"
           onClick={(e) => {
-            setOpen(false);
-            if (window.location.pathname === "/") {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
+            e.preventDefault();
+            handleNavClick("home");
           }}
         >
           <span className="font-display text-xl font-extrabold tracking-tight relative z-0 inline-block leading-none pb-1">
             Bengal<span className="text-brand">Taxi</span>
-            <svg className="absolute bottom-0 left-0 w-full -z-10" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="underline-fade-nav" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#FACC15" stopOpacity="1" /><stop offset="60%" stopColor="#FACC15" stopOpacity="0.6" /><stop offset="100%" stopColor="#FACC15" stopOpacity="0.1" /></linearGradient></defs><path d="M2 6 L298 6" stroke="url(#underline-fade-nav)" strokeWidth="5" strokeLinecap="round" style={{ strokeDasharray: "none" }}/></svg>
+            <svg
+              className="absolute bottom-0 left-0 w-full -z-10"
+              viewBox="0 0 300 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="underline-fade-nav" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#FACC15" stopOpacity="1" />
+                  <stop offset="60%" stopColor="#FACC15" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#FACC15" stopOpacity="0.1" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M2 6 L298 6"
+                stroke="url(#underline-fade-nav)"
+                strokeWidth="5"
+                strokeLinecap="round"
+                style={{ strokeDasharray: "none" }}
+              />
+            </svg>
           </span>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          {links.map((l) =>
-            l.hash ? (
-              <button
-                key={l.label}
-                type="button"
-                onClick={() => handleHashNav(l.hash)}
-                className={`${baseDesktop} cursor-pointer ${isActive(l) ? activeClass : ""}`}
-              >
-                {l.label}
-              </button>
-            ) : (
-              <Link
-                key={l.label}
-                to={l.to}
-                onClick={() => {
-                  if (l.to === "/" && pathname === "/") {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }
-                }}
-                className={`${baseDesktop} ${isActive(l) ? activeClass : ""}`}
-              >
-                {l.label}
-              </Link>
-            ),
-          )}
+          {links.map((l) => (
+            <button
+              key={l.id}
+              type="button"
+              onClick={() => handleNavClick(l.id)}
+              className={`${baseDesktop} ${activeSection === l.id ? activeClass : ""}`}
+            >
+              {l.label}
+            </button>
+          ))}
         </nav>
 
+        {/* Right action buttons */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <a
             href={site.phoneHref}
-            className="hidden sm:inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-ink/90 transition-colors dark:bg-brand dark:text-brand-foreground dark:hover:brightness-95"
+            className="hidden sm:inline-flex items-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-semibold text-white hover:bg-black/90 transition-colors dark:bg-white dark:text-black dark:hover:bg-white/90"
           >
-            <Phone className="h-4 w-4" /> {site.phone}
+            <Phone className="h-4 w-4" /> Book Now
           </a>
           <button
             className="md:hidden inline-grid h-9 w-9 place-items-center rounded-md border border-border bg-background transition-colors hover:bg-accent focus-visible:outline-none"
@@ -159,37 +149,21 @@ export function Navbar() {
       {open && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="container-x py-2 flex flex-col">
-            {links.map((l) =>
-              l.hash ? (
-                <button
-                  key={l.label}
-                  type="button"
-                  onClick={() => handleHashNav(l.hash)}
-                  className={`${baseMobile} text-left cursor-pointer ${isActive(l) ? "bg-accent" : ""}`}
-                >
-                  {l.label}
-                </button>
-              ) : (
-                <Link
-                  key={l.label}
-                  to={l.to}
-                  onClick={() => {
-                    setOpen(false);
-                    if (l.to === "/" && pathname === "/") {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }
-                  }}
-                  className={`${baseMobile} ${isActive(l) ? "bg-accent" : ""}`}
-                >
-                  {l.label}
-                </Link>
-              ),
-            )}
+            {links.map((l) => (
+              <button
+                key={l.id}
+                type="button"
+                onClick={() => handleNavClick(l.id)}
+                className={`${baseMobile} ${activeSection === l.id ? "bg-accent" : ""}`}
+              >
+                {l.label}
+              </button>
+            ))}
             <a
               href={site.phoneHref}
               className="mt-2 mb-3 inline-flex items-center justify-center gap-2 rounded-md bg-brand px-4 py-3 text-base font-semibold text-brand-foreground"
             >
-              <Phone className="h-4 w-4" /> Call {site.phone}
+              <Phone className="h-4 w-4" /> Call Now
             </a>
           </div>
         </div>

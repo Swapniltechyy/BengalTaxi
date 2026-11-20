@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getServices } from "@/lib/api";
 import {
@@ -11,6 +11,8 @@ import {
   Building2,
   CheckCircle2,
   Phone,
+  Train,
+  Sparkles,
 } from "lucide-react";
 import taxiVector from "@/assets/bengal-taxi-car-logo.png";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -20,6 +22,9 @@ import { site } from "@/lib/site";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 export const Route = createFileRoute("/services")({
+  beforeLoad: () => {
+    throw redirect({ to: "/", hash: "services" });
+  },
   head: () => ({
     meta: [
       { title: "Services — Airport, Tours & Local Taxis | Bengal Taxi" },
@@ -81,19 +86,46 @@ export const Route = createFileRoute("/services")({
 });
 
 const services = [
-  { icon: Plane, title: "Airport Pickup & Drop", text: "Seamless Bagdogra (IXB) transfers.", points: ["Timely pickups", "Flight tracking", "Meet & Greet service"] },
-  { icon: Car, title: "Local Taxi Service", text: "Efficient city travel in Siliguri and surrounds.", points: ["Hourly packages", "Point-to-point drops", "Knowledgeable drivers"] },
-  { icon: MapPin, title: "Outstation Taxi", text: "Comfortable long-distance journeys.", points: ["Premium vehicles", "Experienced highway drivers", "Flexible stops"] },
-  { icon: Mountain, title: "Darjeeling Tour", text: "Scenic heritage tours.", points: ["Custom itineraries", "Hill-station expert drivers", "Sightseeing included"] },
-  { icon: Mountain, title: "Sikkim Tour", text: "Adventure and beauty in the high mountains.", points: ["Permit assistance", "Multi-day packages", "4x4 vehicles available"] },
-  { icon: Mountain, title: "Mirik Tour", text: "Peaceful lakeside getaways and tea gardens.", points: ["Lake sightseeing", "Tea garden visits", "Pashupati border drops"] },
-  { icon: Mountain, title: "Kurseong Tour", text: "The land of white orchids and heritage.", points: ["Makaibari tea estate", "Eagle's Craig view", "Dowhill forest drive"] },
-  { icon: Trees, title: "Dooars Tour", text: "Wildlife and jungle safaris.", points: ["Safari booking help", "Resort transfers", "Off-beat destination routing"] },
-  { icon: Briefcase, title: "Corporate Taxi", text: "Professional travel for business needs.", points: ["Monthly billing", "Executive cars", "Dedicated support"] },
+  {
+    icon: Briefcase,
+    title: "Corporate Taxi",
+    text: "Punctual, professional travel solutions tailored for business executives, client pickups, and corporate delegations.",
+    points: ["Monthly billing & GST invoices", "Pristine executive cars", "Dedicated priority support"],
+  },
+  {
+    icon: Plane,
+    title: "Airport Pickup & Drop",
+    text: "Prompt transfers between Bagdogra Airport (IXB) and Siliguri, Darjeeling, Sikkim, or Dooars.",
+    points: ["Flight tracking & zero wait", "Meet & Greet at arrivals", "Luggage assistance guaranteed"],
+  },
+  {
+    icon: MapPin,
+    title: "Outstation & Intercity Travel",
+    text: "Comfortable, safe highway and intercity travel connecting Bengal with Sikkim, Assam, and Bihar.",
+    points: ["One-way & round-trip options", "Experienced long-route drivers", "Transparent per-km rate"],
+  },
+  {
+    icon: Train,
+    title: "Railway Station Pickup & Drop",
+    text: "Timely drops and pickups for New Jalpaiguri (NJP), Siliguri Junction, and regional stations.",
+    points: ["Train delay monitoring", "Platform pickup assistance", "Available 24×7 day & night"],
+  },
+  {
+    icon: Sparkles,
+    title: "Wedding & Event Transportation",
+    text: "Coordinated fleet services and luxury convoy management for weddings, celebrations, and functions.",
+    points: ["Multi-vehicle convoy coordination", "Decorated premium cars available", "Dedicated on-ground coordinator"],
+  },
+  {
+    icon: Mountain,
+    title: "Local Sightseeing & Tour Packages",
+    text: "Handcrafted holiday packages across Darjeeling, Gangtok, Pelling, Mirik, Kurseong, and Dooars.",
+    points: ["Hill-expert local drivers", "Customizable scenic itineraries", "Permit assistance included"],
+  },
 ];
 
 const IconMap: Record<string, React.ElementType> = {
-  Plane, Car, MapPin, Mountain, Trees, Briefcase, CheckCircle2
+  Plane, Car, MapPin, Mountain, Trees, Briefcase, CheckCircle2, Train, Sparkles,
 };
 
 function ServicesPage() {
@@ -123,73 +155,74 @@ function ServicesPage() {
       </PageHero>
 
       <section className="container-x py-16 md:py-24">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {displayServices.map((s, i) => {
-            // For DB items, we need to map the string to the icon component
-            const IconComponent = s.icon_name ? (IconMap[s.icon_name] || CheckCircle2) : s.icon;
-            
-            return (
-            <ScrollReveal key={s.title} delay={i * 0.1} direction="up" className="group flex flex-col rounded-2xl border border-border bg-card p-8 transition-shadow hover:shadow-sm hover:border-foreground/20">
-              <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand dark:bg-brand/20">
-                <IconComponent className="h-5 w-5" />
-              </div>
-              <div className="relative w-fit z-10">
-                <h3 className="font-display text-xl font-bold uppercase text-foreground">{s.title}</h3>
-                <svg
-                  className="absolute -bottom-2 left-0 w-full -z-10"
-                  viewBox="0 0 300 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <linearGradient id={`underline-fade-service-${i}`} x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#FACC15" stopOpacity="1" />
-                      <stop offset="60%" stopColor="#FACC15" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="#FACC15" stopOpacity="0.1" />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M2 6 L298 6"
-                    stroke={`url(#underline-fade-service-${i})`}
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                    style={{ strokeDasharray: "none" }}
-                  />
-                </svg>
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
-              <ul className="mt-6 mb-8 space-y-3 flex-1">
-                {s.points.map((p: string) => (
-                  <li key={p} className="flex items-start gap-3 text-sm text-foreground/80">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
+        {/* Mobile View: Clean, high-impact service rows (instantly overviewed) */}
+        <div className="md:hidden space-y-2.5">
+          {displayServices.map((s, i) => (
+            <ScrollReveal key={s.title} delay={i * 0.03} direction="up">
               <a
                 href={site.whatsappHref}
                 target="_blank"
                 rel="noopener"
-                className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                className="group flex items-center justify-between rounded-xl border border-border bg-card/60 px-4 py-3.5 transition-all active:scale-[0.98] active:border-brand hover:border-brand/50"
               >
-                <WhatsAppIcon className="h-4 w-4" /> Enquire on WhatsApp
+                <div className="flex items-center gap-3">
+                  <span className="h-5 w-1 rounded-full bg-brand shrink-0" />
+                  <span className="font-display text-base font-bold text-foreground group-hover:text-brand transition-colors">
+                    {s.title}
+                  </span>
+                </div>
+                <span className="text-xs font-bold text-brand shrink-0 flex items-center gap-1">
+                  Enquire <span aria-hidden="true">→</span>
+                </span>
               </a>
             </ScrollReveal>
+          ))}
+        </div>
+
+        {/* Desktop View: Full 2-column detailed cards */}
+        <div className="hidden md:grid gap-6 md:grid-cols-2">
+          {displayServices.map((s, i) => {
+            return (
+              <ScrollReveal
+                key={s.title}
+                delay={i * 0.08}
+                direction="up"
+                className="group flex flex-col justify-between rounded-2xl border border-border bg-card p-6 sm:p-8 transition-all hover:border-brand/40 hover:shadow-sm"
+              >
+                <div>
+                  <h3 className="font-display text-xl font-bold text-foreground">{s.title}</h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {s.points.map((p: string) => (
+                      <span
+                        key={p}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-muted/60 px-3 py-1 text-xs text-foreground/80 border border-border/50"
+                      >
+                        <CheckCircle2 className="h-3 w-3 text-brand shrink-0" />
+                        <span>{p}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-6 flex justify-end">
+                  <a
+                    href={site.whatsappHref}
+                    target="_blank"
+                    rel="noopener"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand/10 hover:bg-brand px-3.5 py-1.5 text-xs font-bold text-foreground hover:text-brand-foreground transition-all"
+                  >
+                    <WhatsAppIcon className="h-3.5 w-3.5" /> Enquire
+                  </a>
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>
 
-        <ScrollReveal delay={0.3} direction="up" className="mt-16 rounded-[2rem] border border-dashed border-border bg-muted/30 p-8 md:p-12 md:flex md:items-center md:justify-between md:gap-8 max-w-4xl mx-auto">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-background border border-border shadow-sm">
-              <Building2 className="h-5 w-5 text-foreground" />
-            </div>
-            <div>
-              <h3 className="font-display text-2xl font-bold text-foreground">Need a Custom Quote?</h3>
-              <p className="mt-2 text-muted-foreground max-w-md">Call us for personalized tour packages and group bookings across North Bengal.</p>
-            </div>
+        <ScrollReveal delay={0.3} direction="up" className="mt-16 md:flex md:items-center md:justify-between md:gap-8 max-w-4xl mx-auto">
+          <div>
+            <h3 className="font-display text-2xl font-bold text-foreground">Need a Custom Quote?</h3>
+            <p className="mt-2 text-muted-foreground max-w-md">Call us for personalized tour packages and group bookings across Bengal & Sikkim.</p>
           </div>
           <a href={site.phoneHref} className="mt-6 md:mt-0 inline-flex shrink-0 h-12 items-center justify-center gap-2 rounded-full bg-brand px-8 font-semibold text-brand-foreground transition-transform hover:scale-105 active:scale-95">
             <Phone className="h-5 w-5" /> Call Now

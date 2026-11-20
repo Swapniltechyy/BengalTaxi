@@ -1,6 +1,7 @@
 import { site } from "@/lib/site";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { Phone } from "lucide-react";
 
 export function CTASection() {
   return (
@@ -51,7 +52,7 @@ export function CTASection() {
                 href={site.phoneHref}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-8 text-sm font-bold text-background transition-transform hover:scale-105 active:scale-95"
               >
-                {site.phone}
+                <Phone className="h-4 w-4" /> Book Now
               </a>
               <a
                 href={site.whatsappHref}

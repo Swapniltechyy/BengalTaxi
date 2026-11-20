@@ -133,3 +133,23 @@
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
 }
+
+@keyframes slide-reviews {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide-reviews {
+  display: flex;
+  width: max-content;
+  animation: slide-reviews 40s linear infinite;
+}
+
+.animate-slide-reviews:hover,
+.animate-slide-reviews:active {
+  animation-play-state: paused;
+}

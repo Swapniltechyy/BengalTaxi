@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getVehicles } from "@/lib/api";
 import { Users, Briefcase, Snowflake, Phone, Music } from "lucide-react";
@@ -14,6 +14,9 @@ import tempo from "@/assets/car-tempo.png";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 export const Route = createFileRoute("/fleet")({
+  beforeLoad: () => {
+    throw redirect({ to: "/", hash: "vehicle" });
+  },
   head: () => ({
     meta: [
       { title: "Our Fleet — Sedans & SUVs | Bengal Taxi" },

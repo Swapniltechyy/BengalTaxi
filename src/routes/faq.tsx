@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Phone, MessageCircle } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
@@ -8,6 +8,9 @@ import { site } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export const Route = createFileRoute("/faq")({
+  beforeLoad: () => {
+    throw redirect({ to: "/", hash: "faq" });
+  },
   head: () => ({
     meta: [
       { title: "FAQ — Frequently Asked Questions | Bengal Taxi" },
