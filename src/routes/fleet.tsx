@@ -11,6 +11,7 @@ import ertiga from "@/assets/car-ertiga.png";
 import innova from "@/assets/car-innova.png";
 import crysta from "@/assets/car-crysta.png";
 import tempo from "@/assets/car-tempo.png";
+import urbania from "@/assets/car-urbania.png";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 export const Route = createFileRoute("/fleet")({
@@ -89,6 +90,15 @@ const cars = [
     features: ["Pushback seating", "Rooftop luggage carrier", "High roof for comfort"],
     best: "Best for: Large family groups, student tours, team trips",
   },
+  {
+    name: "URBANIA",
+    type: "Luxury Van",
+    img: urbania,
+    seats: "12–16 Passengers",
+    luggage: "8-10 Large Bags",
+    features: ["Pushback seating", "Rooftop luggage carrier", "High roof for comfort"],
+    best: "Best for: Luxury group travel, corporate tours, mountain expeditions",
+  },
 ];
 
 function FleetPage() {
@@ -142,7 +152,7 @@ function FleetPage() {
                       <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{c.type}</p>
                       <h3 className="mt-2 font-display text-3xl font-extrabold text-foreground">{c.name}</h3>
                     </div>
-                    <span className="rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand dark:bg-brand/20">{c.seats.split(" ")[0]} seats</span>
+                    <span className="rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand dark:bg-brand/20">{(c.seats || "").split(" ")[0]} seats</span>
                   </div>
 
                   <dl className="mt-8 grid grid-cols-2 gap-4 text-sm font-medium">
@@ -169,7 +179,7 @@ function FleetPage() {
                   </ul>
 
                   <div className="mt-8 border-t border-border pt-6">
-                    <p className="text-sm font-semibold text-foreground">{c.best}</p>
+                    <p className="text-sm font-semibold text-foreground">{c.best || c.best_for}</p>
                     <div className="mt-6 flex flex-wrap gap-4">
                       <a href={site.phoneHref} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-6 font-semibold text-background transition-transform hover:scale-105 active:scale-95">
                         <Phone className="h-4 w-4" /> Book {c.name}

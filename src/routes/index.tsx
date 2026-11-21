@@ -642,7 +642,7 @@ function SinglePageWebsite() {
                       <h3 className="mt-2 font-display text-3xl font-extrabold text-foreground">{c.name}</h3>
                     </div>
                     <span className="rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand dark:bg-brand/20">
-                      {c.seats.split(" ")[0]} seats
+                      {(c.seats || "").split(" ")[0]} seats
                     </span>
                   </div>
 
@@ -670,7 +670,7 @@ function SinglePageWebsite() {
                   </ul>
 
                   <div className="mt-8 border-t border-border pt-6">
-                    <p className="text-sm font-semibold text-foreground">{c.best}</p>
+                    <p className="text-sm font-semibold text-foreground">{c.best || c.best_for}</p>
                     <div className="mt-6 flex flex-wrap gap-4">
                       <a
                         href={site.phoneHref}
@@ -755,7 +755,7 @@ function SinglePageWebsite() {
               </ul>
 
               <div className="mt-6 border-t border-border pt-5">
-                <p className="text-xs sm:text-sm font-semibold text-foreground mb-4">{selectedCar.best}</p>
+                <p className="text-xs sm:text-sm font-semibold text-foreground mb-4">{selectedCar.best || selectedCar.best_for}</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
                     href={site.phoneHref}
@@ -890,9 +890,9 @@ function SinglePageWebsite() {
               >
                 <div>
                   <h3 className="font-display text-xl font-bold text-foreground">{s.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text || s.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {s.points.map((p: string) => (
+                    {(s.points || []).map((p: string) => (
                       <span
                         key={p}
                         className="inline-flex items-center gap-1.5 rounded-full bg-muted/60 px-3 py-1 text-xs text-foreground/80 border border-border/50"

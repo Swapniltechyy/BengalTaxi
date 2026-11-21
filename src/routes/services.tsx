@@ -191,9 +191,9 @@ function ServicesPage() {
               >
                 <div>
                   <h3 className="font-display text-xl font-bold text-foreground">{s.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text || s.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {s.points.map((p: string) => (
+                    {(s.points || []).map((p: string) => (
                       <span
                         key={p}
                         className="inline-flex items-center gap-1.5 rounded-full bg-muted/60 px-3 py-1 text-xs text-foreground/80 border border-border/50"
