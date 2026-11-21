@@ -501,7 +501,7 @@ function SinglePageWebsite() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/20" />
         </div>
 
-        <div className="container-x relative z-10">
+        <div className="container-x relative z-10 -mt-12 sm:-mt-14 md:mt-0">
           <ScrollReveal direction="right">
             <div className="max-w-3xl">
               <h1 className="font-display text-4xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-5xl sm:leading-[1.08] md:text-6xl lg:text-7xl">
